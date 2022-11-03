@@ -1,4 +1,4 @@
-const songs = `[{
+const songsJSON = `[{
 		"song_id": 1167,
 		"title": "Alarm",
 		"year": 2016,
