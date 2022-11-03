@@ -17,8 +17,16 @@
 
     <p>git branching test</p>
     <p> Just another change to learn dumb git</p>
-    <select name="song-title" id="song-select">
-    </select>
+    <form id="song-search-form">
+        <label for="artist-select">Artist </label>
+        <select name="artist-name" id="artist-select">
+            <option value="none" selected disabled hidden></option>
+        </select>
+        <button type="submit" onclick="filterSongs()">Search</button>
+        <button type="submit" onclick="sessionStorage.clear()">Clear</button>
+
+    </form>
+
     <table class="topazCells">
         <thead>
             <th>title</th>
