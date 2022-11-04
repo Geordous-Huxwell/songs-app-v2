@@ -3,12 +3,8 @@ if (!localStorage.getItem("songs")) {
     loadJSON(api, loadData);
 }
 
-const songs = JSON.parse(localStorage.getItem("songs"));
-
 //use sample-songs file as back-up if API call fails 
-if (!songs) {
-    songs = JSON.parse(songsJSON);
-}
+const songs = JSON.parse(localStorage.getItem("songs")) || JSON.parse(songsJSON);
 const artists = JSON.parse(artistsJSON);
 
 console.log("songs object", songs);
