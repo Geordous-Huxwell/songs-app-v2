@@ -59,7 +59,7 @@ artistArray.forEach(artistName => {
 });
 
 function outputTableRow(song) {
-    document.getElementById("song-table-body").innerHTML += `<tr><td>${song.title}</td><td>${song.artist.name}</td><td>${song.year}</td><td>${song.genre.name}</td>
+    document.getElementById("song-table-body").innerHTML += `<tr><td class="song-title-cell">${song.title}</td><td>${song.artist.name}</td><td>${song.year}</td><td>${song.genre.name}</td>
     <td> <progress max="100" value="${song.details.popularity}"></progress></td></tr>`;
 }
 
@@ -69,6 +69,5 @@ function outputArtistOptions(artistName) {
 
 function filterSongs() {
     let artist = document.getElementById("song-search-form").elements.namedItem("artist-name").value;
-    document.getElementById("song-table-body").innerHTML = '';
     sessionStorage.setItem("artist", artist);
 }

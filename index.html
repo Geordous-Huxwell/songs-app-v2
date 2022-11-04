@@ -11,33 +11,33 @@
 </head>
 
 <body>
-    <h1>This site is live</h1>
     <h3>COMP 3512 - Assignment 2</h3>
     <h4>Jillian Bennett, Joel Conley, Harshad Krishnaraj</h4>
-
-    <p>git branching test</p>
-    <p> Just another change to learn dumb git</p>
-    <form id="song-search-form">
-        <label for="artist-select">Artist </label>
-        <select name="artist-name" id="artist-select">
-            <option value="none" selected disabled hidden></option>
-        </select>
-        <button type="submit" onclick="filterSongs()">Search</button>
-        <button type="submit" onclick="sessionStorage.clear()">Clear</button>
-
-    </form>
-
-    <table class="topazCells">
-        <thead>
-            <th>title</th>
-            <th>artist</th>
-            <th>year</th>
-            <th>genre</th>
-            <th>Popularity</th>
-        </thead>
-        <tbody id="song-table-body">
-        </tbody>
-    </table>
+    <div class="background">
+        <div class="form-background">
+            <form id="song-search-form">
+                <label for="artist-select">Artist </label>
+                <select name="artist-name" id="artist-select">
+                    <option value="none" selected disabled hidden></option>
+                </select>
+                <button type="submit" class="btn" onclick="filterSongs()">Search</button>
+                <button type="submit" class="btn" onclick="sessionStorage.clear()">Clear</button>
+            </form>
+        </div>
+        <div class="table-container">
+            <table class="topazCells">
+                <thead>
+                    <th>Title</th>
+                    <th>Artist</th>
+                    <th>Year</th>
+                    <th>Genre</th>
+                    <th>Popularity</th>
+                </thead>
+                <tbody id="song-table-body">
+                </tbody>
+            </table>
+        </div>
+    </div>
 </body>
 <script src="app.js"></script>
 

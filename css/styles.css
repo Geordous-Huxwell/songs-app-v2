@@ -1,11 +1,19 @@
+.table-container {
+    max-height: 500px;
+    overflow-y: auto;
+}
+
+
 /* some table stylilng from https://divtable.com/table-styler/ */
 
 table.topazCells {
     border: 4px solid #555555;
-    background-color: #555555;
+    background-color: #2c2b2b;
     width: 400px;
     text-align: center;
     border-collapse: collapse;
+    overflow-y: hidden;
+    max-height: 500px;
 }
 
 table.topazCells td,
@@ -17,25 +25,94 @@ table.topazCells th {
 table.topazCells tbody td {
     font-size: 13px;
     font-weight: bold;
-    color: #FFFFFF;
+    color: white;
 }
 
 table.topazCells tr:nth-child(even) {
-    background: #A43152;
+    background: #d7398b;
 }
 
+table.topazCells tr:nth-child(even) td {
+    color: #2c2b2b;
+}
+
+th {
+    color: wheat;
+    font-size: 17px;
+    position: sticky;
+    background-color: #2c2b2b;
+    top: 0;
+}
+
+.song-title-cell {
+    min-width: 200px;
+}
+
+
+/* 
 table.topazCells tfoot td {
     font-size: 13px;
-}
+} */
 
-table.topazCells tfoot .links {
+
+/* table.topazCells tfoot .links {
     text-align: right;
 }
 
 table.topazCells tfoot .links a {
     display: inline-block;
-    background: #FFFFFF;
+    background: white;
     color: #A43152;
     padding: 2px 8px;
     border-radius: 5px;
+} */
+
+body {
+    background-color: black;
+    color: honeydew;
+}
+
+.background {
+    display: block;
+    width: fit-content;
+    margin: auto;
+    background-color: black;
+    color: wheat;
+    font-family: Arial;
+}
+
+.form-background {
+    display: block;
+    width: fit-content;
+    margin: auto;
+}
+
+.btn {
+    border-radius: 10px;
+    box-shadow: 4px 4px 3px #666666;
+    color: white;
+    font-size: 16px;
+    background: #821f76;
+    padding: 5px 10px;
+    margin: 5px;
+}
+
+.btn:hover {
+    background: #3cfc89;
+    color: #2c2b2b;
+    font-weight: 600;
+}
+
+.btn:active {
+    box-shadow: none;
+    transform: translate(4px, 4px);
+}
+
+label {
+    font-weight: 600;
+    margin: 5px;
+}
+
+select {
+    margin: 5px;
 }
