@@ -10,20 +10,38 @@ const artists = JSON.parse(artistsJSON);
 console.log("songs object", songs);
 console.log("sessionStorage", sessionStorage);
 
+songs.forEach(song => {
+    populateTitles(song.title);
+})
+
 const artistArray = [];
 artists.forEach((artist) => {
     artistArray.push(artist.name);
 });
 
-if (sessionStorage.getItem("artist")) {
+let filteredSongs;
+
+if (sessionStorage.getItem("title")) {
+    let title = sessionStorage.getItem("title");
+    filteredSongs = songs.filter((song) => {
+        return String(song.title).toLowerCase().includes(title.toLowerCase());
+    });
+
+} else if (sessionStorage.getItem("artist")) {
     let artist = sessionStorage.getItem("artist");
-    let filteredSongs = songs.filter((song) => {
+    filteredSongs = songs.filter((song) => {
         return song.artist.name == artist;
     });
-    buildSongTable(filteredSongs);
-} else {
-    buildSongTable(songs);
+
 }
+
+filteredSongs ? buildSongTable(filteredSongs) : buildSongTable(songs);
+//the above code does the same as the below commented out code
+// if (filterSongs) {
+//     buildSongTable(filteredSongs);
+// } else {
+//     buildSongTable(songs);
+// }
 
 //rewrite this based on lab learnings
 function loadJSON(path, success) {
@@ -48,6 +66,7 @@ function buildSongTable(songs) {
     for (let song of songs) {
         outputTableRow(song);
     }
+
 }
 
 artistArray.forEach(artistName => {
@@ -63,7 +82,24 @@ function outputArtistOptions(artistName) {
     document.getElementById("artist-select").innerHTML += `<option value="${artistName}">${artistName}</option>`;
 }
 
+function populateTitles(title) {
+    document.getElementById("song-title-search").innerHTML += `<option value="${title}">${title}</option>`;
+}
+
 function filterSongs() {
-    let artist = document.getElementById("song-search-form").elements.namedItem("artist-name").value;
-    sessionStorage.setItem("artist", artist);
+    sessionStorage.clear();
+    let form = document.getElementById("song-search-form").elements;
+    let searchType;
+    let filter;
+
+    if (form.namedItem("song-title").value) {
+        searchType = 'title';
+        filter = form.namedItem("song-title").value;
+
+    } else if (form.namedItem("artist-name").value) {
+        searchType = 'artist';
+        filter = form.namedItem("artist-name").value;
+    }
+
+    sessionStorage.setItem(searchType, filter);
 }
