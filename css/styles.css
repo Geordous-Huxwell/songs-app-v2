@@ -117,31 +117,23 @@ select {
     margin: 5px;
 }
 
-
-/* example of selectors to use for progress bar styling */
-
-
-/* progress {
-    border-radius: 7px;
-    width: 80%;
-    height: 22px;
-    margin-left: -11.5%;
-    box-shadow: 1px 1px 4px rgba( 0, 0, 0, 0.2);
+progress{
+    border-radius: 2px;
+    width: 85%;
+    height: 0.75rem;
+    margin: auto;
 }
-
 progress::-webkit-progress-bar {
-    background-color: yellow;
+    background-color: #DEB992;
     border-radius: 7px;
 }
 
 progress::-webkit-progress-value {
-    background-color: blue;
+    background-color: #1BA098;
     border-radius: 7px;
-    box-shadow: 1px 1px 5px 3px rgba( 255, 0, 0, 0.8);
+    /* box-shadow: 1px 1px 5px 3px rgba( 255, 0, 0, 0.8); */
 }
 
 progress::-moz-progress-bar {
-    /* style rules */
-
-
-/* } */
+ 
+}
