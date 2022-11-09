@@ -20,10 +20,19 @@
                 <input list="song-title-search" name="song-title">
                 <datalist id="song-title-search">
                 </datalist>
+
                 <label for="artist-select">Artist</label>
                 <select name="artist-name" id="artist-select">
-                    <option value="none" selected disabled hidden></option>
+                    <option value="none" disabled hidden></option>
                 </select>
+
+
+                <label for="genre-select">Genre</label>
+                <select name="genre-name" id="genre-select">
+                    <option value="none" disabled hidden></option>
+                </select>
+
+
                 <button type="submit" class="btn" onclick="filterSongs()">Search</button>
                 <button type="submit" class="btn" onclick="sessionStorage.clear()">Clear</button>
             </form>
