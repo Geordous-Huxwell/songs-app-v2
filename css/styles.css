@@ -1,9 +1,21 @@
+body {
+    background-color: #D1E8E2;
+    color: #2C3531;
+}
+/* this is css for the background of the table */
+.background {
+    display: block;
+    width: fit-content;
+    margin: auto;
+    background-color: #116466;
+    color: #d9b08c;
+    font-family: Arial;
+}
+
 .table-container {
     max-height: 500px;
     overflow-y: auto;
 }
-
-
 /* some table stylilng from https://divtable.com/table-styler/ */
 
 table.topazCells {
@@ -18,27 +30,28 @@ table.topazCells {
 
 table.topazCells td,
 table.topazCells th {
-    border: 1px solid #555555;
+    border: 1px solid #116466;
     padding: 4px 7px;
 }
 
 table.topazCells tbody td {
     font-size: 13px;
     font-weight: bold;
-    color: white;
+    color: #FFCB9A;
 }
 
 table.topazCells tr:nth-child(even) {
-    background: #d7398b;
+    background: #116466;
+
 }
 
 table.topazCells tr:nth-child(even) td {
-    color: #2c2b2b;
+    color: #FFCB9A;
 }
 
 th {
-    color: wheat;
-    font-size: 17px;
+    color: #D9B08C;
+    font-size: 24px;
     position: sticky;
     background-color: #2c2b2b;
     top: 0;
@@ -67,19 +80,7 @@ table.topazCells tfoot .links a {
     border-radius: 5px;
 } */
 
-body {
-    background-color: black;
-    color: honeydew;
-}
 
-.background {
-    display: block;
-    width: fit-content;
-    margin: auto;
-    background-color: black;
-    color: wheat;
-    font-family: Arial;
-}
 
 .form-background {
     display: block;
