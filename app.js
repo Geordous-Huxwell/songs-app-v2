@@ -11,6 +11,83 @@ const genres = JSON.parse(genresJSON);
 console.log("songs object", songs);
 console.log("sessionStorage", sessionStorage);
 
+function alphaSortColumn(column){
+    let compare1;
+    let compare2;
+songs.sort((a, b)=> {
+    if(column=="title"){
+         compare1= String(a.title).toLowerCase(),
+            compare2 = String(b.title).toLowerCase();
+    }else if(column=="artist"){
+        compare1= String(a.artist.name).toLowerCase(),
+            compare2 = String(b.artist.name).toLowerCase();
+    }else if(column=="genre"){
+         compare1= String(a.genre.name).toLowerCase(),
+            compare2 = String(b.genre.name).toLowerCase();
+    }else if(column=="year"){
+        compare1=a.year;
+        compare2=b.year;
+    }else if(column=="popularity"){// not working ahh
+        compare1=a.details.popularity;
+        console.log("hi");
+        compare2=b.details.popularity;
+    }else{
+        compare1= String(a.title).toLowerCase(),
+        compare2 = String(b.title).toLowerCase();
+    }
+   // console.log (a);
+//    let titleV1= String(a.title).toLowerCase(),
+//    titleV2 = String(b.title).toLowerCase();
+
+    if(compare1< compare2){
+        return -1;
+    }
+    if(compare1>compare2){
+        return 1;
+    }
+    return 0;
+});
+document.querySelector("tbody").innerHTML = "";
+buildSongTable(songs);
+console.log(songs);
+}
+
+
+const header = document.querySelector("thead");
+header.addEventListener("click", function(event){
+    console.log(event);
+    const target = event.target;
+    if(target.matches("th")){
+        // do something which we want to call tgw 
+        target.style.background="red"; // yayya it works 
+        // call the function we made above
+        alphaSortColumn(target.id);
+
+        const span= document.createElement("span");
+        span.textContent=" Hello";
+        target.appendChild(span);
+
+        const reverseSpan = document.querySelector("thead th span");
+        reverseSpan.addEventListener("click", function(event){
+            console.log(event);
+            const target = event.target;
+            if(target.matches("span")){
+                // do something which we want to call tgw 
+                target.style.background="blue"; // yayya it works 
+                // call the function we made above
+                const reverseSongs = songs.reverse();
+                console.log(reverseSongs)
+                document.querySelector("tbody").innerHTML = "";
+                buildSongTable(reverseSongs); 
+            }
+        });
+    
+        
+    }
+})
+
+
+
 songs.forEach(song => {
     populateTitles(song.title);
 })
@@ -41,9 +118,7 @@ if (sessionStorage.getItem("title")) {
         return song.artist.name == artist;
     });
 
-}
-
-else if (sessionStorage.getItem("genre"))
+} else if (sessionStorage.getItem("genre"))
 {
     let genre = sessionStorage.getItem("genre"); 
     console.log(genre); 
@@ -83,9 +158,11 @@ function loadData(data) {
 }
 
 function buildSongTable(songs) {
+    
     for (let song of songs) {
         outputTableRow(song);
     }
+   // alphaSortColumn("title"); // makes life never load! 
 }
 
 

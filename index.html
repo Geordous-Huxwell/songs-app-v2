@@ -23,13 +23,13 @@
 
                 <label for="artist-select">Artist</label>
                 <select name="artist-name" id="artist-select">
-                    <option value="none" disabled hidden></option>
+                    <option value="none" disabled hidden selected></option>
                 </select>
 
 
                 <label for="genre-select">Genre</label>
                 <select name="genre-name" id="genre-select">
-                    <option value="none" disabled hidden></option>
+                    <option value="none" disabled hidden selected></option>
                 </select>
 
 
@@ -40,11 +40,11 @@
         <div class="table-container">
             <table class="topazCells">
                 <thead>
-                    <th>Title</th>
-                    <th>Artist</th>
-                    <th>Year</th>
-                    <th>Genre</th>
-                    <th>Popularity</th>
+                    <th id="title">Title</th>
+                    <th id="artist">Artist</th>
+                    <th id="year">Year</th>
+                    <th id="genre">Genre</th>
+                    <th id="popularity">Popularity</th>
                 </thead>
                 <tbody id="song-table-body">
                 </tbody>
