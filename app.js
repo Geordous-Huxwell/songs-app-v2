@@ -6,85 +6,75 @@ if (!localStorage.getItem("songs")) {
 //use sample-songs file as back-up if API call fails 
 const songs = JSON.parse(localStorage.getItem("songs")) || JSON.parse(songsJSON);
 const artists = JSON.parse(artistsJSON);
-const genres = JSON.parse(genresJSON); 
+const genres = JSON.parse(genresJSON);
+let reverseSongs = [];
 
 console.log("songs object", songs);
 console.log("sessionStorage", sessionStorage);
 
-function alphaSortColumn(column){
+// sorting algorithm adapted from https://www.javascripttutorial.net/array/javascript-sort-an-array-of-objects/
+function alphaSortColumn(column) {
     let compare1;
     let compare2;
-songs.sort((a, b)=> {
-    if(column=="title"){
-         compare1= String(a.title).toLowerCase(),
+    songs.sort((a, b) => {
+        if (column == "title") {
+            compare1 = String(a.title).toLowerCase();
             compare2 = String(b.title).toLowerCase();
-    }else if(column=="artist"){
-        compare1= String(a.artist.name).toLowerCase(),
+        } else if (column == "artist") {
+            compare1 = String(a.artist.name).toLowerCase();
             compare2 = String(b.artist.name).toLowerCase();
-    }else if(column=="genre"){
-         compare1= String(a.genre.name).toLowerCase(),
+        } else if (column == "genre") {
+            compare1 = String(a.genre.name).toLowerCase();
             compare2 = String(b.genre.name).toLowerCase();
-    }else if(column=="year"){
-        compare1=a.year;
-        compare2=b.year;
-    }else if(column=="popularity"){// not working ahh
-        compare1=a.details.popularity;
-        console.log("hi");
-        compare2=b.details.popularity;
-    }else{
-        compare1= String(a.title).toLowerCase(),
-        compare2 = String(b.title).toLowerCase();
-    }
-   // console.log (a);
-//    let titleV1= String(a.title).toLowerCase(),
-//    titleV2 = String(b.title).toLowerCase();
+        } else if (column == "year") {
+            compare1 = a.year;
+            compare2 = b.year;
+        } else if (column == "popularity") {
+            compare1 = a.details.popularity;
+            compare2 = b.details.popularity;
+        } else {
+            compare1 = String(a.title).toLowerCase();
+            compare2 = String(b.title).toLowerCase();
+        }
 
-    if(compare1< compare2){
-        return -1;
-    }
-    if(compare1>compare2){
-        return 1;
-    }
-    return 0;
-});
-document.querySelector("tbody").innerHTML = "";
-buildSongTable(songs);
-console.log(songs);
+        if (compare1 < compare2) {
+            return -1;
+        }
+        if (compare1 > compare2) {
+            return 1;
+        }
+        return 0;
+    });
+
+    document.querySelector("tbody").innerHTML = "";
+    buildSongTable(songs);
+    // console.log(songs);
 }
 
 
 const header = document.querySelector("thead");
-header.addEventListener("click", function(event){
-    console.log(event);
+header.addEventListener("click", function(event) {
+    // console.log(event);
     const target = event.target;
-    if(target.matches("th")){
+    console.log(target);
+    if (target.matches("th")) {
         // do something which we want to call tgw 
-        target.style.background="red"; // yayya it works 
+        target.style.background = "red"; // yayya it works 
         // call the function we made above
         alphaSortColumn(target.id);
 
-        const span= document.createElement("span");
-        span.textContent=" Hello";
+        const span = document.createElement("span");
+        span.textContent = " #";
         target.appendChild(span);
-
-        const reverseSpan = document.querySelector("thead th span");
-        reverseSpan.addEventListener("click", function(event){
-            console.log(event);
-            const target = event.target;
-            if(target.matches("span")){
-                // do something which we want to call tgw 
-                target.style.background="blue"; // yayya it works 
-                // call the function we made above
-                const reverseSongs = songs.reverse();
-                console.log(reverseSongs)
-                document.querySelector("tbody").innerHTML = "";
-                buildSongTable(reverseSongs); 
-            }
-        });
-    
-        
+    } else if (target.matches("span")) {
+        target.style.background = "blue"; // yayya it works 
+        // call the function we made above
+        reverseSongs = reverseSongs.length > 0 ? reverseSongs.reverse() : songs.reverse();
+        console.log(reverseSongs)
+        document.querySelector("tbody").innerHTML = "";
+        buildSongTable(reverseSongs);
     }
-})
+});
 
 
 
@@ -97,11 +87,10 @@ artists.forEach((artist) => {
     artistArray.push(artist.name);
 });
 
-const genreArray = []; 
-genres.forEach((genre) => 
-{
-    genreArray.push(genre.name); 
-}); 
+const genreArray = [];
+genres.forEach((genre) => {
+    genreArray.push(genre.name);
+});
 
 
 let filteredSongs;
@@ -118,17 +107,15 @@ if (sessionStorage.getItem("title")) {
         return song.artist.name == artist;
     });
 
-} else if (sessionStorage.getItem("genre"))
-{
-    let genre = sessionStorage.getItem("genre"); 
-    console.log(genre); 
-    filteredSongs = songs.filter((song) =>
-    {
-        return song.genre.name == genre; 
-    }); 
+} else if (sessionStorage.getItem("genre")) {
+    let genre = sessionStorage.getItem("genre");
+    console.log(genre);
+    filteredSongs = songs.filter((song) => {
+        return song.genre.name == genre;
+    });
 }
 
-console.log(filteredSongs); 
+console.log(filteredSongs);
 
 filteredSongs ? buildSongTable(filteredSongs) : buildSongTable(songs);
 //the above code does the same as the below commented out code
@@ -158,11 +145,11 @@ function loadData(data) {
 }
 
 function buildSongTable(songs) {
-    
+
     for (let song of songs) {
         outputTableRow(song);
     }
-   // alphaSortColumn("title"); // makes life never load! 
+    // alphaSortColumn("title"); // makes life never load! 
 }
 
 
@@ -170,10 +157,9 @@ artistArray.forEach(artistName => {
     outputArtistOptions(artistName);
 });
 
-genreArray.forEach(genreName => 
-    {
-        populateGenres(genreName); 
-    })
+genreArray.forEach(genreName => {
+    populateGenres(genreName);
+})
 
 function outputTableRow(song) {
     document.getElementById("song-table-body").innerHTML += `<tr><td class="song-title-cell">${song.title}</td><td>${song.artist.name}</td><td>${song.year}</td><td>${song.genre.name}</td>
@@ -188,9 +174,8 @@ function populateTitles(title) {
     document.getElementById("song-title-search").innerHTML += `<option value="${title}">${title}</option>`;
 }
 
-function populateGenres(genreName)
-{
-    document.getElementById("genre-select").innerHTML += `<option value="${genreName}">${genreName}</option>`; 
+function populateGenres(genreName) {
+    document.getElementById("genre-select").innerHTML += `<option value="${genreName}">${genreName}</option>`;
 }
 
 
@@ -209,14 +194,9 @@ function filterSongs() {
     } else if (form.namedItem("artist-name").value) {
         searchType = 'artist';
         filter = form.namedItem("artist-name").value;
-    }
-
-    else if (form.namedItem("genre-name").value)
-    {
-        searchType = 'genre'; 
-        filter = form.namedItem("genre-name").value; 
+    } else if (form.namedItem("genre-name").value) {
+        searchType = 'genre';
+        filter = form.namedItem("genre-name").value;
     }
     sessionStorage.setItem(searchType, filter);
 }
-
- 
