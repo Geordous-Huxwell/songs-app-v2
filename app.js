@@ -66,13 +66,11 @@ header.addEventListener("click", function(event) {
         if (target.id == currentSort) {
             filteredSongs ? buildSongTable(filteredSongs.reverse()) : buildSongTable(songs.reverse());
         } else {
-            alphaSortColumn(songs, target.id);
+            filteredSongs ? alphaSortColumn(filteredSongs, target.id) : alphaSortColumn(songs, target.id);
             currentSort = target.id;
         }
     }
 });
-
-
 
 songs.forEach(song => {
     populateTitles(song.title);
@@ -112,7 +110,7 @@ if (sessionStorage.getItem("title")) {
 
 console.log(filteredSongs);
 
-filteredSongs ? alphaSortColumn(filteredSongs, "title") : alphaSortColumn(songs, "title");
+filteredSongs ? alphaSortColumn(filteredSongs, currentSort) : alphaSortColumn(songs, currentSort);
 //the above code does the same as the below commented out code
 // if (filterSongs) {
 //     buildSongTable(filteredSongs);
