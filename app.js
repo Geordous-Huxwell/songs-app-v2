@@ -73,17 +73,16 @@ header.addEventListener("click", function(event) {
 });
 
 songs.forEach(song => {
-    populateTitles(song.title);
+    populateOptions(song.title, document.getElementById("song-title-search"));
 })
 
-const artistArray = [];
 artists.forEach((artist) => {
-    artistArray.push(artist.name);
+    populateOptions(artist.name, document.getElementById("artist-select"));
+
 });
 
-const genreArray = [];
 genres.forEach((genre) => {
-    genreArray.push(genre.name);
+    populateOptions(genre.name, document.getElementById("genre-select"));
 });
 
 
@@ -142,39 +141,24 @@ function buildSongTable(songs) {
     for (let song of songs) {
         outputTableRow(song);
     }
-    // alphaSortColumn("title"); // makes life never load! 
+    // alphaSortColumn("title"); // makes life never load! (causes infinite loop)
 }
 
-
-artistArray.forEach(artistName => {
-    outputArtistOptions(artistName);
-});
-
-genreArray.forEach(genreName => {
-    populateGenres(genreName);
-})
 
 function outputTableRow(song) {
     document.getElementById("song-table-body").innerHTML += `<tr><td class="song-title-cell">${song.title}</td><td>${song.artist.name}</td><td>${song.year}</td><td>${song.genre.name}</td>
     <td> <progress max="100" value="${song.details.popularity}"></progress></td></tr>`;
 }
 
-function outputArtistOptions(artistName) {
-    document.getElementById("artist-select").innerHTML += `<option value="${artistName}">${artistName}</option>`;
-}
-
-function populateTitles(title) {
-    document.getElementById("song-title-search").innerHTML += `<option value="${title}">${title}</option>`;
-}
-
-function populateGenres(genreName) {
-    document.getElementById("genre-select").innerHTML += `<option value="${genreName}">${genreName}</option>`;
+function populateOptions(title, parent) {
+    const opt = document.createElement("option");
+    opt.value = title;
+    opt.textContent = title;
+    parent.appendChild(opt);
 }
 
 
-
-
-function filterSongs() {
+document.querySelector("#search-btn").addEventListener("click", () => {
     sessionStorage.clear();
     let form = document.getElementById("song-search-form").elements;
     let searchType;
@@ -192,5 +176,8 @@ function filterSongs() {
         searchType = 'genre';
         filter = form.namedItem("genre-name").value;
     }
+
     sessionStorage.setItem(searchType, filter);
-}
+});
+
+document.querySelector("#clear-btn").addEventListener("click", sessionStorage.clear());
