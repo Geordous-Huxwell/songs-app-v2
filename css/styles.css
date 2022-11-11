@@ -62,11 +62,27 @@ th {
     position: sticky;
     background-color: #2c2b2b;
     top: 0;
+    min-width: 100px;
+}
+
+i {
+    font-size: 12px;
+    margin-left: 5px;
     cursor: pointer;
+}
+
+.active-sort-arrow {
+    font-size: 14px;
+    font-weight: 600;
+    color: #821f76;
 }
 
 .song-title-cell {
     min-width: 200px;
+}
+
+#pop-col-header {
+    min-width: 150px;
 }
 
 

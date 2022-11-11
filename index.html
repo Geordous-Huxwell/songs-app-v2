@@ -7,6 +7,7 @@
     <script src="data/artists.json"></script>
     <script src="data/genres.json"></script>
     <script src="data/sample-songs.json"></script>
+    <script src="https://kit.fontawesome.com/59d2823eac.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="css/styles.css">
 </head>
 
@@ -23,7 +24,7 @@
 
                 <label for="artist-select">Artist</label>
                 <select name="artist-name" id="artist-select">
-                    <option value="none" disabled hidden selected></option>
+                    <option value="" disabled hidden selected></option>
                 </select>
 
 
@@ -40,11 +41,11 @@
         <div class="table-container">
             <table class="topazCells">
                 <thead>
-                    <th id="title">Title</th>
-                    <th id="artist">Artist</th>
-                    <th id="year">Year</th>
-                    <th id="genre">Genre</th>
-                    <th id="popularity">Popularity</th>
+                    <th>Title <i id="title" class="fa-solid fa-arrows-up-down active-sort-arrow"></i></th>
+                    <th>Artist <i id="artist" class="fa-solid fa-arrows-up-down"></i></th>
+                    <th>Year <i id="year" class="fa-solid fa-arrows-up-down"></i></th>
+                    <th>Genre <i id="genre" class="fa-solid fa-arrows-up-down"></i></th>
+                    <th id="pop-col-header">Pop. <i id="popularity" class="fa-solid fa-arrows-up-down"></i></th>
                 </thead>
                 <tbody id="song-table-body">
                 </tbody>

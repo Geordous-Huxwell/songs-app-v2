@@ -8,12 +8,13 @@ const songs = JSON.parse(localStorage.getItem("songs")) || JSON.parse(songsJSON)
 const artists = JSON.parse(artistsJSON);
 const genres = JSON.parse(genresJSON);
 let reverseSongs = [];
+let currentSort = "title";
 
 console.log("songs object", songs);
 console.log("sessionStorage", sessionStorage);
 
 // sorting algorithm adapted from https://www.javascripttutorial.net/array/javascript-sort-an-array-of-objects/
-function alphaSortColumn(column) {
+function alphaSortColumn(songs, column) {
     let compare1;
     let compare2;
     songs.sort((a, b) => {
@@ -46,33 +47,28 @@ function alphaSortColumn(column) {
         return 0;
     });
 
-    document.querySelector("tbody").innerHTML = "";
     buildSongTable(songs);
-    // console.log(songs);
 }
 
 
 const header = document.querySelector("thead");
 header.addEventListener("click", function(event) {
-    // console.log(event);
     const target = event.target;
     console.log(target);
-    if (target.matches("th")) {
-        // do something which we want to call tgw 
-        target.style.background = "red"; // yayya it works 
-        // call the function we made above
-        alphaSortColumn(target.id);
 
-        const span = document.createElement("span");
-        span.textContent = " #";
-        target.appendChild(span);
-    } else if (target.matches("span")) {
-        target.style.background = "blue"; // yayya it works 
-        // call the function we made above
-        reverseSongs = reverseSongs.length > 0 ? reverseSongs.reverse() : songs.reverse();
-        console.log(reverseSongs)
-        document.querySelector("tbody").innerHTML = "";
-        buildSongTable(reverseSongs);
+    if (target.matches("i")) {
+        console.log('target id', target.id);
+        document.querySelectorAll("i").forEach(i => {
+            i.classList.remove("active-sort-arrow");
+        });
+        target.classList.add("active-sort-arrow");
+
+        if (target.id == currentSort) {
+            filteredSongs ? buildSongTable(filteredSongs.reverse()) : buildSongTable(songs.reverse());
+        } else {
+            alphaSortColumn(songs, target.id);
+            currentSort = target.id;
+        }
     }
 });
 
@@ -109,7 +105,6 @@ if (sessionStorage.getItem("title")) {
 
 } else if (sessionStorage.getItem("genre")) {
     let genre = sessionStorage.getItem("genre");
-    console.log(genre);
     filteredSongs = songs.filter((song) => {
         return song.genre.name == genre;
     });
@@ -117,7 +112,7 @@ if (sessionStorage.getItem("title")) {
 
 console.log(filteredSongs);
 
-filteredSongs ? buildSongTable(filteredSongs) : buildSongTable(songs);
+filteredSongs ? alphaSortColumn(filteredSongs, "title") : alphaSortColumn(songs, "title");
 //the above code does the same as the below commented out code
 // if (filterSongs) {
 //     buildSongTable(filteredSongs);
@@ -145,7 +140,7 @@ function loadData(data) {
 }
 
 function buildSongTable(songs) {
-
+    document.querySelector("tbody").innerHTML = "";
     for (let song of songs) {
         outputTableRow(song);
     }
@@ -194,6 +189,7 @@ function filterSongs() {
     } else if (form.namedItem("artist-name").value) {
         searchType = 'artist';
         filter = form.namedItem("artist-name").value;
+
     } else if (form.namedItem("genre-name").value) {
         searchType = 'genre';
         filter = form.namedItem("genre-name").value;
