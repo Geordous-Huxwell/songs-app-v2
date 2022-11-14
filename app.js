@@ -1,36 +1,38 @@
+// this gets the songs from randys api and put them into a JSON file.
 if (!localStorage.getItem("songs")) {
     const api = "https://www.randyconnolly.com/funwebdev/3rd/api/music/songs-nested.php";
     loadJSON(api, loadData);
 }
 
 //use sample-songs file as back-up if API call fails 
-const songs = JSON.parse(localStorage.getItem("songs")) || JSON.parse(songsJSON);
-const artists = JSON.parse(artistsJSON);
+const songs = JSON.parse(localStorage.getItem("songs")) || JSON.parse(songsJSON); 
+const artists = JSON.parse(artistsJSON); 
 const genres = JSON.parse(genresJSON);
-let reverseSongs = [];
-let currentSort = "title";
+let reverseSongs = []; // this is just an empty array for the reverse song. 
+let currentSort = "title"; // this is sorting the automatic list by title.
 
 console.log("songs object", songs);
 console.log("sessionStorage", sessionStorage);
 
 // sorting algorithm adapted from https://www.javascripttutorial.net/array/javascript-sort-an-array-of-objects/
+// this  function sorts each column individually in the table. 
 function alphaSortColumn(songs, column) {
-    let compare1;
+    let compare1; // these are simple compare values that we will use and inout things (depending on the collumn to then compare the 2 values)
     let compare2;
     songs.sort((a, b) => {
-        if (column == "title") {
+        if (column == "title") { 
             compare1 = String(a.title).toLowerCase();
             compare2 = String(b.title).toLowerCase();
         } else if (column == "artist") {
             compare1 = String(a.artist.name).toLowerCase();
             compare2 = String(b.artist.name).toLowerCase();
-        } else if (column == "genre") {
+        } else if (column == "genre") { 
             compare1 = String(a.genre.name).toLowerCase();
             compare2 = String(b.genre.name).toLowerCase();
         } else if (column == "year") {
             compare1 = a.year;
             compare2 = b.year;
-        } else if (column == "popularity") {
+        } else if (column == "popularity") { 
             compare1 = a.details.popularity;
             compare2 = b.details.popularity;
         } else {
@@ -50,7 +52,7 @@ function alphaSortColumn(songs, column) {
     buildSongTable(songs);
 }
 
-
+// this making the events for the table head
 const header = document.querySelector("thead");
 header.addEventListener("click", function(event) {
     const target = event.target;
@@ -59,9 +61,11 @@ header.addEventListener("click", function(event) {
     if (target.matches("i")) {
         console.log('target id', target.id);
         document.querySelectorAll("i").forEach(i => {
-            i.classList.remove("active-sort-arrow");
+            //i.classList.remove("active-sort-arrow");
+            i.classList.toggle("fa-arrow-up-a-z");
         });
-        target.classList.add("active-sort-arrow");
+        target.classList.add("fa-arrow-up-a-z");
+        //target.classList.add("active-sort-arrow");
 
         if (target.id == currentSort) {
             filteredSongs ? buildSongTable(filteredSongs.reverse()) : buildSongTable(songs.reverse());
@@ -179,5 +183,11 @@ document.querySelector("#search-btn").addEventListener("click", () => {
 
     sessionStorage.setItem(searchType, filter);
 });
+
+// this is for the alpha icons life 
+function alphaIconSwitch(x){
+    x.classList.toggle("fa-arrow-down-a-z");
+ }
+
 
 document.querySelector("#clear-btn").addEventListener("click", sessionStorage.clear());

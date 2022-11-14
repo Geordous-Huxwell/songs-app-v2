@@ -69,13 +69,15 @@ th {
 }
 
 i {
-    font-size: 12px;
+    font-size: 15px;
     margin-left: 5px;
     cursor: pointer;
+    /* font-weight: 600; */
+    /* color: #D1E8E2; */
 }
 
 .active-sort-arrow {
-    font-size: 14px;
+    font-size: 20px;
     font-weight: 600;
     color: #821f76;
 }
@@ -88,7 +90,12 @@ i {
     min-width: 150px;
 }
 
-
+.fa-arrow-up-a-z{
+    font-size: 20px;
+    font-weight: 600;
+    /* color: #D1E8E2; */
+}
+.
 /* 
 table.topazCells tfoot td {
     font-size: 13px;
@@ -124,9 +131,10 @@ table.topazCells tfoot .links a {
 }
 
 .btn:hover {
-    background: #3cfc89;
-    color: #2c2b2b;
-    font-weight: 600;
+    background: #1BA098; 
+    color: #821f76;
+    font-weight: 900;
+
 }
 
 .btn:active {
@@ -160,5 +168,3 @@ progress::-webkit-progress-value {
     border-radius: 7px;
     /* box-shadow: 1px 1px 5px 3px rgba( 255, 0, 0, 0.8); */
 }
-
-progress::-moz-progress-bar {}

@@ -7,7 +7,10 @@
     <script src="data/artists.json"></script>
     <script src="data/genres.json"></script>
     <script src="data/sample-songs.json"></script>
-    <script src="https://kit.fontawesome.com/59d2823eac.js" crossorigin="anonymous"></script>
+    <!-- ask what this one is  -->
+    <script src="https://kit.fontawesome.com/59d2823eac.js" crossorigin="anonymous"></script> 
+    <!-- This is adding for the icons stuff -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
     <link rel="stylesheet" href="css/styles.css">
 </head>
 
@@ -41,10 +44,10 @@
         <div class="table-container">
             <table class="topazCells">
                 <thead>
-                    <th>Title <i id="title" class="fa-solid fa-arrows-up-down active-sort-arrow"></i></th>
-                    <th>Artist <i id="artist" class="fa-solid fa-arrows-up-down"></i></th>
+                    <th>Title <i id="title" onclick="alphaIconSwitch(this)"  class="fa-solid fa-arrow-down-a-z"></i></th>
+                    <th>Artist <i id="artist" onclick="alphaIconSwitch(this)"  class="fa-solid fa-arrow-down-a-z"></i></th>
                     <th>Year <i id="year" class="fa-solid fa-arrows-up-down"></i></th>
-                    <th>Genre <i id="genre" class="fa-solid fa-arrows-up-down"></i></th>
+                    <th>Genre <i id="genre" onclick="alphaIconSwitch(this)"  class="fa-solid fa-arrow-down-a-z"></i></th>
                     <th id="pop-col-header">Pop. <i id="popularity" class="fa-solid fa-arrows-up-down"></i></th>
                 </thead>
                 <tbody id="song-table-body">
@@ -52,6 +55,8 @@
             </table>
         </div>
     </div>
+
+
 </body>
 <script src="app.js"></script>
 
