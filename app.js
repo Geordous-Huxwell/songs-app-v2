@@ -15,7 +15,9 @@ console.log("songs object", songs);
 console.log("sessionStorage", sessionStorage);
 
 // sorting algorithm adapted from https://www.javascripttutorial.net/array/javascript-sort-an-array-of-objects/
-// this  function sorts each column individually in the table. 
+/*
+this  function sorts each column individually in the table. 
+*/
 function alphaSortColumn(songs, column) {
     let compare1; // these are simple compare values that we will use and inout things (depending on the collumn to then compare the 2 values)
     let compare2;
@@ -39,7 +41,6 @@ function alphaSortColumn(songs, column) {
             compare1 = String(a.title).toLowerCase();
             compare2 = String(b.title).toLowerCase();
         }
-
         if (compare1 < compare2) {
             return -1;
         }
@@ -48,7 +49,6 @@ function alphaSortColumn(songs, column) {
         }
         return 0;
     });
-
     buildSongTable(songs);
 }
 
@@ -61,11 +61,9 @@ header.addEventListener("click", function(event) {
     if (target.matches("i")) {
         console.log('target id', target.id);
         document.querySelectorAll("i").forEach(i => {
-            i.classList.remove("active-sort-arrow");
-            i.classList.toggle("fa-arrow-up-a-z");
+            i.classList.remove("active-sort-arrow");// this gets all the i's and removes it 
         });
-        target.classList.add("fa-arrow-up-a-z");
-        target.classList.add("active-sort-arrow");
+        target.classList.add("active-sort-arrow"); // adds an active sort arrow for alphabetically.n
 
         if (target.id == currentSort) {
             filteredSongs ? buildSongTable(filteredSongs.reverse()) : buildSongTable(songs.reverse());
@@ -121,7 +119,17 @@ filteredSongs ? alphaSortColumn(filteredSongs, currentSort) : alphaSortColumn(so
 //     buildSongTable(songs);
 // }
 
-//rewrite this based on lab learnings
+
+
+/**
+ * This is a function that passes in the path and the success is the loadData function
+ * its getting called if songs is not in localStorage (at top of page) this is going to 
+ * be called once.
+ * 
+ * this will get rewritten based on lab learnings- quick fixes
+ * @param {*} path  thus us the given path 
+ * @param {*} success this is the load data function just renamed.
+ */
 function loadJSON(path, success) {
     var xhr = new XMLHttpRequest();
     xhr.onreadystatechange = function() {
@@ -134,7 +142,11 @@ function loadJSON(path, success) {
     xhr.open('GET', path, true);
     xhr.send();
 }
-
+/**
+ * This function loads the data with the JSON data thats been put into strings.
+ * 
+ * @param {*} data 
+ */
 function loadData(data) {
     console.log(data);
     localStorage.setItem("songs", JSON.stringify(data));
@@ -147,8 +159,9 @@ function buildSongTable(songs) {
     }
     // alphaSortColumn("title"); // makes life never load! (causes infinite loop)
 }
-
-
+/*
+this function wil output the table row by the passed in song 
+*/
 function outputTableRow(song) {
     document.getElementById("song-table-body").innerHTML += `<tr><td class="song-title-cell">${song.title}</td><td>${song.artist.name}</td><td>${song.year}</td><td>${song.genre.name}</td>
     <td> <progress max="100" value="${song.details.popularity}"></progress></td></tr>`;
@@ -161,9 +174,12 @@ function populateOptions(title, parent) {
     parent.appendChild(opt);
 }
 
-
+/**
+ * this is the eventlistener for search button so when you click it will get 
+ * the value you put in form then filter through what your selection was. 
+ */
 document.querySelector("#search-btn").addEventListener("click", () => {
-    sessionStorage.clear();
+    sessionStorage.clear(); // Session storage is individual time of reloading page. n
     let form = document.getElementById("song-search-form").elements;
     let searchType;
     let filter;
@@ -184,10 +200,12 @@ document.querySelector("#search-btn").addEventListener("click", () => {
     sessionStorage.setItem(searchType, filter);
 });
 
-// this is for the alpha icons life 
-function alphaIconSwitch(x){
-    x.classList.toggle("fa-arrow-down-a-z");
- }
+document.querySelector(".song-title-cell").addEventListener("click", ()=>{
+  
+    let value= this.getSelection();
+    alert(value);
+});
 
 
+// this is an event listener for the clear button it will clear the session storage. 
 document.querySelector("#clear-btn").addEventListener("click", sessionStorage.clear());
