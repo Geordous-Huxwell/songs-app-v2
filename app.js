@@ -61,11 +61,11 @@ header.addEventListener("click", function(event) {
     if (target.matches("i")) {
         console.log('target id', target.id);
         document.querySelectorAll("i").forEach(i => {
-            //i.classList.remove("active-sort-arrow");
+            i.classList.remove("active-sort-arrow");
             i.classList.toggle("fa-arrow-up-a-z");
         });
         target.classList.add("fa-arrow-up-a-z");
-        //target.classList.add("active-sort-arrow");
+        target.classList.add("active-sort-arrow");
 
         if (target.id == currentSort) {
             filteredSongs ? buildSongTable(filteredSongs.reverse()) : buildSongTable(songs.reverse());
