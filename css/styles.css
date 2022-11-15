@@ -79,7 +79,7 @@ i {
 .active-sort-arrow {
     font-size: 20px;
     font-weight: 600;
-    color: #821f76;
+    color: #D1E8E2;
 }
 
 .song-title-cell {
@@ -89,12 +89,16 @@ i {
 #pop-col-header {
     min-width: 150px;
 }
+#genre-col-header{
+    min-width: 115px;
+}
 
-.fa-arrow-up-a-z{
+/* .fa-arrow-up-a-z{
     font-size: 20px;
     font-weight: 600;
-    /* color: #D1E8E2; */
+    color: #D1E8E2; ]
 }
+
 .
 /* 
 table.topazCells tfoot td {
