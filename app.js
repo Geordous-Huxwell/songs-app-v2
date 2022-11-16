@@ -3,6 +3,23 @@ if (!localStorage.getItem("songs")) {
     loadJSON(api, loadData);
 }
 
+/**
+ * Uncomment the line below if you need to clear the playlist storage 
+ * since localStorage.clear() will clear the api data as well. 
+ * Make sure to comment it out again after re-loading the page once 
+ * or playlist functionality won't work.
+ */
+// localStorage.setItem("playlist", []);
+
+//initialize playlist if none exists
+let playlist = [];
+if (!localStorage.getItem("playlist")) {
+    localStorage.setItem("playlist", []);
+} else {
+    playlist = JSON.parse(localStorage.getItem("playlist"));
+    console.log('initial playlist', playlist);
+}
+
 //use sample-songs file as back-up if API call fails 
 const songs = JSON.parse(localStorage.getItem("songs")) || JSON.parse(songsJSON);
 const artists = JSON.parse(artistsJSON);
@@ -147,7 +164,7 @@ function buildSongTable(songs) {
 
 function outputTableRow(song) {
     document.getElementById("song-table-body").innerHTML += `<tr><td class="song-title-cell">${song.title}</td><td>${song.artist.name}</td><td>${song.year}</td><td>${song.genre.name}</td>
-    <td> <progress max="100" value="${song.details.popularity}"></progress></td></tr>`;
+    <td> <progress max="100" value="${song.details.popularity}"></progress></td><td><button type="button" class="playlist-add-btn" data-songId="${song.song_id}">Add</button></td></tr>`;
 }
 
 function populateOptions(title, parent) {
@@ -181,3 +198,23 @@ document.querySelector("#search-btn").addEventListener("click", () => {
 });
 
 document.querySelector("#clear-btn").addEventListener("click", sessionStorage.clear());
+
+document.querySelector("tbody").addEventListener('click', (event) => {
+
+    if (event.target.matches(".playlist-add-btn")) {
+
+        const songId = event.target.attributes["data-songId"].value;
+        addToPlaylist(songId);
+        event.stopPropagation();
+    }
+});
+
+function addToPlaylist(songId) {
+    const songData = songs.filter(song => {
+        return song.song_id == songId;
+    });
+    playlist.push(songData);
+    console.log("modified playlist", playlist);
+    localStorage.setItem("playlist", JSON.stringify(playlist));
+
+}
