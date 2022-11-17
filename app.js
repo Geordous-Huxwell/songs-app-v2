@@ -245,6 +245,17 @@ document.querySelector(".song-title-cell").addEventListener("click", ()=>{
     alert(value);
 });
 
+/**
+ * Idk im trying to do js for the nav but unsure right yet
+ * 
+ */
+document.querySelector("#menu").addEventListener("click", function(e){
+    if(e.target && e.target.nodeName == "LI"){
+        // now define the handler functionality 
+        e.stopPropogation();
+    }
+});
+
 
 // this is an event listener for the clear button it will clear the session storage. 
 document.querySelector("#clear-btn").addEventListener("click", sessionStorage.clear());
