@@ -31,22 +31,36 @@
     <div class="background">
         <article id="searchView" >
             <div class="form-background">
+
+                <form id="display-type">
+                    <label for="filter-select">Search Type</label>
+                    <select name="type-filter" id="filter-select">
+                    <option value="title-filter">Title</option>
+                    <option value="artist-filter">Artist</option>
+                    <option value="genre-filter">Genre</option>
+                </select>
+                </form>
+
                 <form id="song-search-form">
-                    <label for="song-title">Title</label>
-                    <input list="song-title-search" name="song-title" />
-                    <datalist id="song-title-search"> </datalist>
 
-                    <label for="artist-select">Artist</label>
-                    <select name="artist-name" id="artist-select">
-              <option value="" disabled hidden selected></option>
-            </select>
+                    <div class="filter-div">
+                        <label for="song-title">Title</label>
+                        <input list="song-title-search" name="song-title">
+                        <datalist id="song-title-search">
+                    </datalist>
+                    </div>
+                    <div class="hide filter-div">
+                        <label for="artist-select">Artist</label>
+                        <select name="artist-name" id="artist-select">
+                    <option value="" disabled hidden selected></option>
+                    </select>
+                    </div>
 
-                    <label for="genre-select">Genre</label>
-                    <select name="genre-name" id="genre-select">
-              <option value="none" disabled hidden selected></option>
-            </select>
-
-                    <button type="submit" id="search-btn" class="btn">Search</button>
+                    <div class="hide filter-div"> <label for="genre-select">Genre</label>
+                        <select name="genre-name" id="genre-select">
+                  <option value="none" disabled hidden selected></option>
+                    </select>
+                    </div> <button type="submit" id="search-btn" class="btn">Search</button>
                     <button type="submit" id="clear-btn" class="btn">Clear</button>
                 </form>
             </div>
