@@ -29,6 +29,10 @@ body {
     overflow-y: auto;
 }
 
+.hide 
+{
+    display: none;
+}
 
 /* some table stylilng from https://divtable.com/table-styler/ */
 
