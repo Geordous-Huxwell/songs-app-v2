@@ -163,8 +163,47 @@ function buildSongTable(songs) {
 this function wil output the table row by the passed in song 
 */
 function outputTableRow(song) {
-    document.getElementById("song-table-body").innerHTML += `<tr><td class="song-title-cell">${song.title}</td><td>${song.artist.name}</td><td>${song.year}</td><td>${song.genre.name}</td>
-    <td> <progress max="100" value="${song.details.popularity}"></progress></td></tr>`;
+    const parentElement = document.getElementById("song-table-body");
+    const row = document.createElement("tr");
+    // createingn the td for title 
+    const rowDataTitle = document.createElement("td");
+    rowDataTitle.classList.add("song-title-cell");
+    rowDataTitle.textContent = song.title;
+    row.appendChild(rowDataTitle);
+    // creating the td for artist name
+    const rowDataArtist = document.createElement("td");
+    rowDataArtist.textContent = song.artist.name;
+    row.appendChild(rowDataArtist);
+    // creating the td for song year
+    const rowDataYear = document.createElement("td");
+    rowDataYear.textContent = song.year;
+    row.appendChild(rowDataYear);
+    //creating the td for song genre
+    const rowDataGenre = document.createElement("td");
+    rowDataGenre.textContent= song.genre.name;
+    row.appendChild(rowDataGenre);
+    // creating the td for the song popularity 
+    const rowDataPopularity = document.createElement("td");
+    const popProgressBar = document.createElement("progress");
+    popProgressBar.max = 100;
+    popProgressBar.value= song.details.popularity;
+    rowDataPopularity.appendChild(popProgressBar);
+    row.appendChild(rowDataPopularity);
+    // creating td for the button 
+    const rowDataButton= document.createElement("td");
+    const buttonPlaylist = document.createElement("button");
+    buttonPlaylist.type="button";
+    buttonPlaylist.class="playlist-add-btn";
+    buttonPlaylist.setAttribute("data-songID",song.song_id);
+    buttonPlaylist.textContent = "Add";
+    rowDataButton.appendChild(buttonPlaylist);
+    row.appendChild(rowDataButton);
+    // putting the whole row into the song-table-body
+    parentElement.appendChild(row);
+    console.log(row);
+   
+    // document.getElementById("song-table-body").innerHTML += `<tr><td class="song-title-cell">${song.title}</td><td>${song.artist.name}</td><td>${song.year}</td><td>${song.genre.name}</td>
+    // <td> <progress max="100" value="${song.details.popularity}"></progress></td></tr>`;
 }
 
 function populateOptions(title, parent) {
