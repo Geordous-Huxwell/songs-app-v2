@@ -1,24 +1,20 @@
 <html lang="en">
-  <head>
+
+<head>
     <meta charset="utf-8" />
     <title>COMP 3512- Assignment 2</title>
     <style src="css/style.css"></style>
     <script src="data/artists.json"></script>
     <script src="data/genres.json"></script>
     <script src="data/sample-songs.json"></script>
-    <!-- ask what this one is  -->
-    <script
-      src="https://kit.fontawesome.com/59d2823eac.js"
-      crossorigin="anonymous"
-    ></script>
-    <!-- This is adding for the icons stuff -->
-    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"> -->
-    <link rel="stylesheet" href="css/styles.css" />
-  </head>
+    <script src="https://kit.fontawesome.com/59d2823eac.js" crossorigin="anonymous"></script>
+    <script src="app.js"></script>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
 
-  <body>
+<body>
     <nav class="nav-bar">
-        
+
         <div class="nav-title">
             <h3>COMP 3512 - Assignment 2</h3>
             <h4>Jillian Bennett, Joel Conley, Harshad Krishnaraj</h4>
@@ -28,61 +24,61 @@
             <li>Single Song</li>
             <li>Playlist!</li>
         </ul>
-    
+
     </nav>
     <!-- <h3>COMP 3512 - Assignment 2</h3>
     <h4>Jillian Bennett, Joel Conley, Harshad Krishnaraj</h4> -->
     <div class="background">
-      <article id="searchView">
-        <div class="form-background">
-          <form id="song-search-form">
-            <label for="song-title">Title</label>
-            <input list="song-title-search" name="song-title" />
-            <datalist id="song-title-search"> </datalist>
+        <article id="searchView">
+            <div class="form-background">
+                <form id="song-search-form">
+                    <label for="song-title">Title</label>
+                    <input list="song-title-search" name="song-title" />
+                    <datalist id="song-title-search"> </datalist>
 
-            <label for="artist-select">Artist</label>
-            <select name="artist-name" id="artist-select">
+                    <label for="artist-select">Artist</label>
+                    <select name="artist-name" id="artist-select">
               <option value="" disabled hidden selected></option>
             </select>
 
-            <label for="genre-select">Genre</label>
-            <select name="genre-name" id="genre-select">
+                    <label for="genre-select">Genre</label>
+                    <select name="genre-name" id="genre-select">
               <option value="none" disabled hidden selected></option>
             </select>
 
-            <button type="submit" id="search-btn" class="btn">Search</button>
-            <button type="submit" id="clear-btn" class="btn">Clear</button>
-          </form>
-        </div>
-        <div class="table-container">
-          <table class="topazCells">
-            <thead>
-              <th>
-                Title <i id="title" class="fa-solid fa-arrows-up-down"></i>
-              </th>
-              <th>
-                Artist <i id="artist" class="fa-solid fa-arrows-up-down"></i>
-              </th>
-              <th>Year <i id="year" class="fa-solid fa-arrows-up-down"></i></th>
-              <th id="genre-col-header">
-                Genre <i id="genre" class="fa-solid fa-arrows-up-down"></i>
-              </th>
-              <th id="pop-col-header">
-                Pop. <i id="popularity" class="fa-solid fa-arrows-up-down"></i>
-              </th>
-              <th>
-                ahh
-              </th>
-            </thead>
-            <tbody id="song-table-body"></tbody>
-          </table>
-        </div>
-      </article>
-      <aricle id="songView" class="hide"> this is the single song life we trying! </aricle>
-      <article id="playlistView" class="hide">
-        this will be playlist view!
-      </article>
+                    <button type="submit" id="search-btn" class="btn">Search</button>
+                    <button type="submit" id="clear-btn" class="btn">Clear</button>
+                </form>
+            </div>
+            <div class="table-container">
+                <table class="topazCells">
+                    <thead>
+                        <th>
+                            Title <i id="title" class="fa-solid fa-arrows-up-down"></i>
+                        </th>
+                        <th>
+                            Artist <i id="artist" class="fa-solid fa-arrows-up-down"></i>
+                        </th>
+                        <th>Year <i id="year" class="fa-solid fa-arrows-up-down"></i></th>
+                        <th id="genre-col-header">
+                            Genre <i id="genre" class="fa-solid fa-arrows-up-down"></i>
+                        </th>
+                        <th id="pop-col-header">
+                            Pop. <i id="popularity" class="fa-solid fa-arrows-up-down"></i>
+                        </th>
+                        <th>
+                            ahh
+                        </th>
+                    </thead>
+                    <tbody id="song-table-body"></tbody>
+                </table>
+            </div>
+        </article>
+        <aricle id="songView" class="hide"> this is the single song life we trying! </aricle>
+        <article id="playlistView" class="hide">
+            this will be playlist view!
+        </article>
     </div>
-  </body>
-  <script src="app.js"></script>
+</body>
+
 </html>

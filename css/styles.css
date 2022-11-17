@@ -1,7 +1,6 @@
 body {
     background-color: #D1E8E2;
     color: #2C3531;
-
     margin: 0;
     padding: 0;
 }
@@ -93,9 +92,11 @@ i {
 #pop-col-header {
     min-width: 150px;
 }
-#genre-col-header{
+
+#genre-col-header {
     min-width: 115px;
 }
+
 
 /* .fa-arrow-up-a-z{
     font-size: 20px;
@@ -139,10 +140,9 @@ table.topazCells tfoot .links a {
 }
 
 .btn:hover {
-    background: #1BA098; 
+    background: #1BA098;
     color: #821f76;
     font-weight: 900;
-
 }
 
 .btn:active {
@@ -176,13 +176,15 @@ progress::-webkit-progress-value {
     border-radius: 7px;
     /* box-shadow: 1px 1px 5px 3px rgba( 255, 0, 0, 0.8); */
 }
-.hide{
+
+.hide {
     display: none;
 }
 
 
 /*Attemping nav css*/
-nav{
+
+nav {
     display: flex;
     justify-content: space-between;
     background-color: #821f76;
@@ -191,7 +193,8 @@ nav{
     margin-bottom: 2em;
     height: 10%;
 }
-.nav-container{
+
+.nav-container {
     margin-left: 5%;
     margin-right: 5%;
 }
@@ -200,7 +203,7 @@ nav{
     height: auto; 
     float: right;
     display: flex;
-    margin-right:3rem;
+    margin-right: 3rem;
 }
 #menu li{
     display: flex;
@@ -226,13 +229,46 @@ font-weight: 900;
 box-shadow: 2px 2px 1px #666666;
 
 }
+
 .nav-title {
     margin: 0px;
     display: flex;
     padding: 1em;
     flex-direction: column;
 }
-.nav-title h3, h4{ 
-margin: 0;
-padding: 0;
+
+.nav-title h3,
+h4 {
+    margin: 0;
+    padding: 0;
+}
+
+progress::-moz-progress-bar {}
+
+
+/* button css from https://www.bestcssbuttongenerator.com/#/10 */
+
+.playlist-add-btn {
+    box-shadow: 0px 1px 0px 0px #1c1b18;
+    background-color: #eae0c2;
+    border-radius: 15px;
+    border: 2px solid #333029;
+    display: inline-block;
+    cursor: pointer;
+    color: #505739;
+    font-family: Arial;
+    font-size: 14px;
+    font-weight: bold;
+    padding: 2px 6px;
+    text-decoration: none;
+    text-shadow: 0px 1px 0px #ffffff;
+}
+
+.playlist-add-btn:hover {
+    background-color: #ccc2a6;
+}
+
+.playlist-add-btn:active {
+    position: relative;
+    top: 1px;
 }
