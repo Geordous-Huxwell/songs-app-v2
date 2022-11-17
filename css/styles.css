@@ -243,7 +243,9 @@ h4 {
     padding: 0;
 }
 
-progress::-moz-progress-bar {}
+progress::-moz-progress-bar {
+    display: inline;
+}
 
 
 /* button css from https://www.bestcssbuttongenerator.com/#/10 */

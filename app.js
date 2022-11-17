@@ -194,10 +194,13 @@ document.querySelector("#menu").addEventListener("click", function(e){
     function outputTableRow(song) {
         const parentElement = document.getElementById("song-table-body");
         const row = document.createElement("tr");
+        row.setAttribute("data-songID", song.song_id);
         // createingn the td for title 
         const rowDataTitle = document.createElement("td");
         rowDataTitle.classList.add("song-title-cell");
         rowDataTitle.textContent = song.title;
+        rowDataTitle.classList.add("clicked-title-single");
+        
         row.appendChild(rowDataTitle);
         // creating the td for artist name
         const rowDataArtist = document.createElement("td");
@@ -229,7 +232,6 @@ document.querySelector("#menu").addEventListener("click", function(e){
         row.appendChild(rowDataButton);
         // putting the whole row into the song-table-body
         parentElement.appendChild(row);
-        console.log(row);
 
     }
 
@@ -268,14 +270,26 @@ document.querySelector("#menu").addEventListener("click", function(e){
 
     document.querySelector("#clear-btn").addEventListener("click", sessionStorage.clear());
 
-    document.querySelector("tbody").addEventListener('click', (event) => {
-
-        if (event.target.matches(".playlist-add-btn")) {
-
-            const songId = event.target.attributes["data-songId"].value;
+    document.querySelector("tbody").addEventListener('click', (event) => { // this is getting an event listener for the entire table body.
+       //console.dir(event.target);
+        //const songId = event.target.attributes["data-songId"].value;  HI THis cant be out of here rn bc its taking the use of value
+        if (event.target.matches(".playlist-add-btn")) { // if the click 
+           const songId = event.target.attributes["data-songId"].value;
             addToPlaylist(songId);
             event.stopPropagation();
+       // }else if(event.target.matches(".clicked-title-single")){
+    }else if(event.target.matches("tr td")){
+        
+        console.dir(event.target);
+        
+            // jill code go to single song page 
+            const songId = event.target.parentElement.dataset.songid;
+            console.log("you made it in");
+            console.log(songId);
+            singleSongPageView(songId);
+            event.stopPropagation();
         }
+        //event.stopPropagation();
     });
 
     function addToPlaylist(songId) {
@@ -286,5 +300,12 @@ document.querySelector("#menu").addEventListener("click", function(e){
         console.log("modified playlist", playlist);
         localStorage.setItem("playlist", JSON.stringify(playlist));
 
+    }
+
+    function singleSongPageView(songId){
+        
+        const foundSongData = songs.find(song=>song.song_id==songId);
+        console.log("This is the found song data");
+        console.log(foundSongData);
     }
 });
