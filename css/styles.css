@@ -185,37 +185,27 @@ progress::-webkit-progress-value {
 nav{
     display: flex;
     justify-content: space-between;
-    background-color: pink;
+    background-color: #821f76;
     width: 100%;
-    /* position: fixed; */
-    margin-bottom: 5em;
+    color:#D1E8E2;
+    margin-bottom: 2em;
     height: 10%;
-    /* display: flex;
-    justify-content: space-around;
-    align-items: center;
-    box-shadow: 5px 10px 30px rgb(0 0 0 / 2%);
-    position: fixed;
-    left: 0;
-    top: 0;
-    width: 100%;
-    z-index: 1;
-    background-color: #FFFFFF; */
 }
 .nav-container{
     margin-left: 5%;
     margin-right: 5%;
 }
 #menu{
-    /* width: 600px;
-    height: 65px; */
+    /* width: 600px;*/
+    height: auto; 
     float: right;
     display: flex;
     margin-right:3rem;
 }
 #menu li{
-    padding: inherit;
     display: flex;
     list-style: none;
+    padding: 0.5em 1em 0.5em 1em;
 /* 
     height: 40px;
     line-height: 43px;
@@ -224,9 +214,17 @@ nav{
     display: flex;
     font-size: 0.8rem;
     text-transform: uppercase;
-    font-weight: 500;
+    c;
     color: #585B5B;
     letter-spacing: 1px; */
+}
+#menu li:hover{
+background-color: #1BA098;
+color: #821f76;
+border-radius: 10px;
+font-weight: 900;
+box-shadow: 2px 2px 1px #666666;
+
 }
 .nav-title {
     margin: 0px;

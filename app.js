@@ -200,7 +200,7 @@ function outputTableRow(song) {
     row.appendChild(rowDataButton);
     // putting the whole row into the song-table-body
     parentElement.appendChild(row);
-    console.log(row);
+
    
     // document.getElementById("song-table-body").innerHTML += `<tr><td class="song-title-cell">${song.title}</td><td>${song.artist.name}</td><td>${song.year}</td><td>${song.genre.name}</td>
     // <td> <progress max="100" value="${song.details.popularity}"></progress></td></tr>`;
@@ -252,7 +252,7 @@ document.querySelector(".song-title-cell").addEventListener("click", ()=>{
 document.querySelector("#menu").addEventListener("click", function(e){
     if(e.target && e.target.nodeName == "LI"){
         // now define the handler functionality 
-        e.stopPropogation();
+       // e.stopPropogation();
     }
 });
 
