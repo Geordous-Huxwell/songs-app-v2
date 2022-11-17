@@ -211,7 +211,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const rowDataButton = document.createElement("td");
         const buttonPlaylist = document.createElement("button");
         buttonPlaylist.type = "button";
-        buttonPlaylist.class = "playlist-add-btn";
+        buttonPlaylist.classList.add("playlist-add-btn");
         buttonPlaylist.setAttribute("data-songID", song.song_id);
         buttonPlaylist.textContent = "Add";
         rowDataButton.appendChild(buttonPlaylist);
