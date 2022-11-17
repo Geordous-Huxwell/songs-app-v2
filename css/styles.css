@@ -29,10 +29,10 @@ body {
     overflow-y: auto;
 }
 
-.hide 
-{
+.hide {
     display: none;
 }
+
 
 /* some table stylilng from https://divtable.com/table-styler/ */
 
@@ -73,6 +73,14 @@ th {
     background-color: #2c2b2b;
     top: 0;
     min-width: 100px;
+}
+
+tr {
+    cursor: pointer;
+}
+
+tr:hover {
+    background-color: #821f76 !important;
 }
 
 i {
@@ -193,7 +201,7 @@ nav {
     justify-content: space-between;
     background-color: #821f76;
     width: 100%;
-    color:#D1E8E2;
+    color: #D1E8E2;
     margin-bottom: 2em;
     height: 10%;
 }
@@ -202,18 +210,20 @@ nav {
     margin-left: 5%;
     margin-right: 5%;
 }
-#menu{
+
+#menu {
     /* width: 600px;*/
-    height: auto; 
+    height: auto;
     float: right;
     display: flex;
     margin-right: 3rem;
 }
-#menu li{
+
+#menu li {
     display: flex;
     list-style: none;
     padding: 0.5em 1em 0.5em 1em;
-/* 
+    /* 
     height: 40px;
     line-height: 43px;
     margin: 3px;
@@ -225,13 +235,13 @@ nav {
     color: #585B5B;
     letter-spacing: 1px; */
 }
-#menu li:hover{
-background-color: #1BA098;
-color: #821f76;
-border-radius: 10px;
-font-weight: 900;
-box-shadow: 2px 2px 1px #666666;
 
+#menu li:hover {
+    background-color: #1BA098;
+    color: #821f76;
+    border-radius: 10px;
+    font-weight: 900;
+    box-shadow: 2px 2px 1px #666666;
 }
 
 .nav-title {
