@@ -1,3 +1,4 @@
+// this gets the songs from randys api and put them into a JSON file.
 document.addEventListener("DOMContentLoaded", () => {
     if (!localStorage.getItem("songs")) {
         const api = "https://www.randyconnolly.com/funwebdev/3rd/api/music/songs-nested.php";
@@ -25,15 +26,18 @@ document.addEventListener("DOMContentLoaded", () => {
     const songs = JSON.parse(localStorage.getItem("songs")) || JSON.parse(songsJSON);
     const artists = JSON.parse(artistsJSON);
     const genres = JSON.parse(genresJSON);
-    let reverseSongs = [];
-    let currentSort = "title";
+    let reverseSongs = []; // this is just an empty array for the reverse song. 
+    let currentSort = "title"; // this is sorting the automatic list by title.
 
     console.log("songs object", songs);
     console.log("sessionStorage", sessionStorage);
 
     // sorting algorithm adapted from https://www.javascripttutorial.net/array/javascript-sort-an-array-of-objects/
+    /*
+    this  function sorts each column individually in the table. 
+    */
     function alphaSortColumn(songs, column) {
-        let compare1;
+        let compare1; // these are simple compare values that we will use and inout things (depending on the collumn to then compare the 2 values)
         let compare2;
         songs.sort((a, b) => {
             if (column == "title") {
@@ -55,7 +59,6 @@ document.addEventListener("DOMContentLoaded", () => {
                 compare1 = String(a.title).toLowerCase();
                 compare2 = String(b.title).toLowerCase();
             }
-
             if (compare1 < compare2) {
                 return -1;
             }
@@ -64,11 +67,10 @@ document.addEventListener("DOMContentLoaded", () => {
             }
             return 0;
         });
-
         buildSongTable(songs);
     }
 
-
+    // this making the events for the table head
     const header = document.querySelector("thead");
     header.addEventListener("click", function(event) {
         const target = event.target;
@@ -77,9 +79,9 @@ document.addEventListener("DOMContentLoaded", () => {
         if (target.matches("i")) {
             console.log('target id', target.id);
             document.querySelectorAll("i").forEach(i => {
-                i.classList.remove("active-sort-arrow");
+                i.classList.remove("active-sort-arrow"); // this gets all the i's and removes it 
             });
-            target.classList.add("active-sort-arrow");
+            target.classList.add("active-sort-arrow"); // adds an active sort arrow for alphabetically.n
 
             if (target.id == currentSort) {
                 filteredSongs ? buildSongTable(filteredSongs.reverse()) : buildSongTable(songs.reverse());
@@ -135,7 +137,17 @@ document.addEventListener("DOMContentLoaded", () => {
     //     buildSongTable(songs);
     // }
 
-    //rewrite this based on lab learnings
+
+
+    /**
+     * This is a function that passes in the path and the success is the loadData function
+     * its getting called if songs is not in localStorage (at top of page) this is going to 
+     * be called once.
+     * 
+     * this will get rewritten based on lab learnings- quick fixes
+     * @param {*} path  thus us the given path 
+     * @param {*} success this is the load data function just renamed.
+     */
     function loadJSON(path, success) {
         var xhr = new XMLHttpRequest();
         xhr.onreadystatechange = function() {
@@ -143,12 +155,16 @@ document.addEventListener("DOMContentLoaded", () => {
                 if (xhr.status === 200) {
                     success(JSON.parse(xhr.responseText));
                 }
-            }
-        };
-        xhr.open('GET', path, true);
-        xhr.send();
+            };
+            xhr.open('GET', path, true);
+            xhr.send();
+        }
     }
-
+    /**
+     * This function loads the data with the JSON data thats been put into strings.
+     * 
+     * @param {*} data 
+     */
     function loadData(data) {
         console.log(data);
         localStorage.setItem("songs", JSON.stringify(data));
@@ -161,11 +177,49 @@ document.addEventListener("DOMContentLoaded", () => {
         }
         // alphaSortColumn("title"); // makes life never load! (causes infinite loop)
     }
-
-
+    /*
+    this function wil output the table row by the passed in song 
+    */
     function outputTableRow(song) {
-        document.getElementById("song-table-body").innerHTML += `<tr><td class="song-title-cell">${song.title}</td><td>${song.artist.name}</td><td>${song.year}</td><td>${song.genre.name}</td>
-    <td> <progress max="100" value="${song.details.popularity}"></progress></td><td><button type="button" class="playlist-add-btn" data-songId="${song.song_id}">Add</button></td></tr>`;
+        const parentElement = document.getElementById("song-table-body");
+        const row = document.createElement("tr");
+        // createingn the td for title 
+        const rowDataTitle = document.createElement("td");
+        rowDataTitle.classList.add("song-title-cell");
+        rowDataTitle.textContent = song.title;
+        row.appendChild(rowDataTitle);
+        // creating the td for artist name
+        const rowDataArtist = document.createElement("td");
+        rowDataArtist.textContent = song.artist.name;
+        row.appendChild(rowDataArtist);
+        // creating the td for song year
+        const rowDataYear = document.createElement("td");
+        rowDataYear.textContent = song.year;
+        row.appendChild(rowDataYear);
+        //creating the td for song genre
+        const rowDataGenre = document.createElement("td");
+        rowDataGenre.textContent = song.genre.name;
+        row.appendChild(rowDataGenre);
+        // creating the td for the song popularity 
+        const rowDataPopularity = document.createElement("td");
+        const popProgressBar = document.createElement("progress");
+        popProgressBar.max = 100;
+        popProgressBar.value = song.details.popularity;
+        rowDataPopularity.appendChild(popProgressBar);
+        row.appendChild(rowDataPopularity);
+        // creating td for the button 
+        const rowDataButton = document.createElement("td");
+        const buttonPlaylist = document.createElement("button");
+        buttonPlaylist.type = "button";
+        buttonPlaylist.class = "playlist-add-btn";
+        buttonPlaylist.setAttribute("data-songID", song.song_id);
+        buttonPlaylist.textContent = "Add";
+        rowDataButton.appendChild(buttonPlaylist);
+        row.appendChild(rowDataButton);
+        // putting the whole row into the song-table-body
+        parentElement.appendChild(row);
+        console.log(row);
+
     }
 
     function populateOptions(title, parent) {
@@ -175,9 +229,12 @@ document.addEventListener("DOMContentLoaded", () => {
         parent.appendChild(opt);
     }
 
-
+    /**
+     * this is the eventlistener for search button so when you click it will get 
+     * the value you put in form then filter through what your selection was. 
+     */
     document.querySelector("#search-btn").addEventListener("click", () => {
-        sessionStorage.clear();
+        sessionStorage.clear(); // Session storage is individual time of reloading page. n
         let form = document.getElementById("song-search-form").elements;
         let searchType;
         let filter;
