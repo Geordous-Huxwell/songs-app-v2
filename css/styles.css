@@ -1,6 +1,8 @@
 body {
     background-color: #D1E8E2;
     color: #2C3531;
+    margin: 0;
+    padding: 0;
 }
 
 
@@ -10,6 +12,7 @@ body {
     display: block;
     width: fit-content;
     margin: auto;
+    /* margin-top: 6em; */
     background-color: #116466;
     color: #d9b08c;
     font-family: Arial;
@@ -69,15 +72,17 @@ th {
 }
 
 i {
-    font-size: 12px;
+    font-size: 15px;
     margin-left: 5px;
     cursor: pointer;
+    /* font-weight: 600; */
+    /* color: #D1E8E2; */
 }
 
 .active-sort-arrow {
-    font-size: 14px;
+    font-size: 20px;
     font-weight: 600;
-    color: #821f76;
+    color: #D1E8E2;
 }
 
 .song-title-cell {
@@ -88,7 +93,18 @@ i {
     min-width: 150px;
 }
 
+#genre-col-header {
+    min-width: 115px;
+}
 
+
+/* .fa-arrow-up-a-z{
+    font-size: 20px;
+    font-weight: 600;
+    color: #D1E8E2; ]
+}
+
+.
 /* 
 table.topazCells tfoot td {
     font-size: 13px;
@@ -124,9 +140,9 @@ table.topazCells tfoot .links a {
 }
 
 .btn:hover {
-    background: #3cfc89;
-    color: #2c2b2b;
-    font-weight: 600;
+    background: #1BA098;
+    color: #821f76;
+    font-weight: 900;
 }
 
 .btn:active {
@@ -159,6 +175,76 @@ progress::-webkit-progress-value {
     background-color: #1BA098;
     border-radius: 7px;
     /* box-shadow: 1px 1px 5px 3px rgba( 255, 0, 0, 0.8); */
+}
+
+.hide {
+    display: none;
+}
+
+
+/*Attemping nav css*/
+
+nav {
+    display: flex;
+    justify-content: space-between;
+    background-color: pink;
+    width: 100%;
+    /* position: fixed; */
+    margin-bottom: 5em;
+    height: 10%;
+    /* display: flex;
+    justify-content: space-around;
+    align-items: center;
+    box-shadow: 5px 10px 30px rgb(0 0 0 / 2%);
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    z-index: 1;
+    background-color: #FFFFFF; */
+}
+
+.nav-container {
+    margin-left: 5%;
+    margin-right: 5%;
+}
+
+#menu {
+    /* width: 600px;
+    height: 65px; */
+    float: right;
+    display: flex;
+    margin-right: 3rem;
+}
+
+#menu li {
+    padding: inherit;
+    display: flex;
+    list-style: none;
+    /* 
+    height: 40px;
+    line-height: 43px;
+    margin: 3px;
+    padding:0px 22px;
+    display: flex;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    font-weight: 500;
+    color: #585B5B;
+    letter-spacing: 1px; */
+}
+
+.nav-title {
+    margin: 0px;
+    display: flex;
+    padding: 1em;
+    flex-direction: column;
+}
+
+.nav-title h3,
+h4 {
+    margin: 0;
+    padding: 0;
 }
 
 progress::-moz-progress-bar {}
