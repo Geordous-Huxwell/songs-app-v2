@@ -326,4 +326,18 @@ document.querySelector("#menu").addEventListener("click", function(e){
         console.log("This is the found song data");
         console.log(foundSongData);
     }
+
+    //outline in my brain for the switching 
+    // build funtion that brings in the selected view they want. event 
+    function switchDisplay(displayChoice){
+         // removing all hide classes from all articles. 
+         document.querySelectorAll(articles).classList.remove("hide");
+
+    // baded on param given (which is the view wanted) if it is that view 
+    //DO NOTHING 
+    //else (meaning it is the other two views)
+    // className=hide which will hide the display of the views. 
+    }
+   
+    
 });
