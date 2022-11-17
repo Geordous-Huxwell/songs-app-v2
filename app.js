@@ -157,6 +157,32 @@ function populateOptions(title, parent) {
     parent.appendChild(opt);
 }
 
+document.querySelector("#filter-select").addEventListener("change", handleView)
+function handleView(e)
+{
+    const selectedFilter= e.target.value; 
+    const hideArray = document.querySelectorAll(".hide")
+    
+    hideArray.forEach( hidden =>(hidden.classList.remove("hide"))); 
+    const elements = [];
+    console.log(selectedFilter); 
+    if (selectedFilter == "title-filter")
+    {
+        elements.push(document.querySelector("#artist-select").parentElement); 
+        elements.push(document.querySelector("#genre-select").parentElement); 
+    }
+    else if (selectedFilter == "artist-filter")
+    {
+        elements.push(document.querySelector("#song-title-search").parentElement); 
+        elements.push(document.querySelector("#genre-select").parentElement); 
+    }
+    else
+    {
+        elements.push(document.querySelector("#song-title-search").parentElement); 
+        elements.push(document.querySelector("#artist-select").parentElement);
+    }
+    elements.forEach(elementType => (elementType.classList.add("hide"))); 
+}
 
 document.querySelector("#search-btn").addEventListener("click", () => {
     sessionStorage.clear();
