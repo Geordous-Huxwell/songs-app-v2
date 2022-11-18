@@ -141,6 +141,42 @@ table.topazCells tfoot .links a {
     margin: auto;
 }
 
+.filters-div {
+    display: grid;
+    grid-template-columns: 1.5fr;
+    grid-template-rows: 1fr 2fr;
+    margin-top: 20px;
+    margin-bottom: 10px;
+}
+
+.filter-div {
+    display: inline;
+}
+
+#btn-container {
+    display: inline;
+    margin-left: 10px;
+}
+
+form {
+    display: block;
+    margin: auto;
+    width: fit-content;
+    text-align: center;
+}
+
+form #display-type {
+    grid-area: 1 / 1 / 2 / 2;
+    display: block !important;
+    margin: auto !important;
+}
+
+form #song-search-form {
+    grid-area: 2 / 1 / 3 / 2;
+    display: inline !important;
+    margin: auto !important;
+}
+
 .btn {
     border-radius: 10px;
     box-shadow: 4px 4px 3px #666666;
