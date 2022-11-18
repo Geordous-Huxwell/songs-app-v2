@@ -137,16 +137,16 @@ document.addEventListener("DOMContentLoaded", () => {
     //     buildSongTable(songs);
     // }
 
-/**
- * Idk im trying to do js for the nav but unsure right yet
- * 
- */
-document.querySelector("#menu").addEventListener("click", function(e){
-    if(e.target && e.target.nodeName == "LI"){
-        // now define the handler functionality 
-       // e.stopPropogation();
-    }
-});
+    /**
+     * Idk im trying to do js for the nav but unsure right yet
+     * 
+     */
+    document.querySelector("#menu").addEventListener("click", function(e) {
+        if (e.target && e.target.nodeName == "LI") {
+            // now define the handler functionality 
+            // e.stopPropogation();
+        }
+    });
 
 
 
@@ -200,7 +200,7 @@ document.querySelector("#menu").addEventListener("click", function(e){
         rowDataTitle.classList.add("song-title-cell");
         rowDataTitle.textContent = song.title;
         rowDataTitle.classList.add("clicked-title-single");
-        
+
         row.appendChild(rowDataTitle);
         // creating the td for artist name
         const rowDataArtist = document.createElement("td");
@@ -289,17 +289,17 @@ document.querySelector("#menu").addEventListener("click", function(e){
     document.querySelector("#clear-btn").addEventListener("click", sessionStorage.clear());
 
     document.querySelector("tbody").addEventListener('click', (event) => { // this is getting an event listener for the entire table body.
-       //console.dir(event.target);
+        //console.dir(event.target);
         //const songId = event.target.attributes["data-songId"].value;  HI THis cant be out of here rn bc its taking the use of value
         if (event.target.matches(".playlist-add-btn")) { // if the click 
-           const songId = event.target.attributes["data-songId"].value;
+            const songId = event.target.attributes["data-songId"].value;
             addToPlaylist(songId);
             event.stopPropagation();
-       // }else if(event.target.matches(".clicked-title-single")){
-    }else if(event.target.matches("tr td")){
-        
-        console.dir(event.target);
-        
+            // }else if(event.target.matches(".clicked-title-single")){
+        } else if (event.target.matches("tr td")) {
+
+            console.dir(event.target);
+
             // jill code go to single song page 
             const songId = event.target.parentElement.dataset.songid;
             console.log("you made it in");
@@ -311,33 +311,40 @@ document.querySelector("#menu").addEventListener("click", function(e){
     });
 
     function addToPlaylist(songId) {
-        const songData = songs.filter(song => {
+        const songData = songs.find(song => {
             return song.song_id == songId;
         });
         playlist.push(songData);
         console.log("modified playlist", playlist);
         localStorage.setItem("playlist", JSON.stringify(playlist));
-
+        makeToast("Song Added to Playlist!");
     }
 
-    function singleSongPageView(songId){
-        
-        const foundSongData = songs.find(song=>song.song_id==songId);
+    function makeToast(msg) {
+        let toast = document.querySelector("#toast");
+        toast.textContent = msg;
+        toast.classList.add("show");
+        setTimeout(() => { toast.classList.remove("show") }, 3000);
+    }
+
+    function singleSongPageView(songId) {
+
+        const foundSongData = songs.find(song => song.song_id == songId);
         console.log("This is the found song data");
         console.log(foundSongData);
     }
 
     //outline in my brain for the switching 
     // build funtion that brings in the selected view they want. event 
-    function switchDisplay(displayChoice){
-         // removing all hide classes from all articles. 
-         document.querySelectorAll(articles).classList.remove("hide");
+    function switchDisplay(displayChoice) {
+        // removing all hide classes from all articles. 
+        document.querySelectorAll(articles).classList.remove("hide");
 
-    // baded on param given (which is the view wanted) if it is that view 
-    //DO NOTHING 
-    //else (meaning it is the other two views)
-    // className=hide which will hide the display of the views. 
+        // baded on param given (which is the view wanted) if it is that view 
+        //DO NOTHING 
+        //else (meaning it is the other two views)
+        // className=hide which will hide the display of the views. 
     }
-   
-    
+
+
 });

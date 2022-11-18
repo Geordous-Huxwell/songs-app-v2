@@ -21,15 +21,15 @@
         </div>
         <ul id="menu">
             <li>Search</li>
-            <li>Single Song</li>
-            <li>Playlist!</li>
+            <li>Random</li>
+            <li>Playlist</li>
         </ul>
 
     </nav>
     <!-- <h3>COMP 3512 - Assignment 2</h3>
     <h4>Jillian Bennett, Joel Conley, Harshad Krishnaraj</h4> -->
     <div class="background">
-        <article id="searchView" >
+        <article id="searchView">
             <div class="form-background">
 
                 <form id="display-type">
@@ -58,7 +58,7 @@
 
                     <div class="hide filter-div"> <label for="genre-select">Genre</label>
                         <select name="genre-name" id="genre-select">
-                  <option value="none" disabled hidden selected></option>
+                  <option value="" disabled hidden selected></option>
                     </select>
                     </div> <button type="submit" id="search-btn" class="btn">Search</button>
                     <button type="submit" id="clear-btn" class="btn">Clear</button>
@@ -88,12 +88,13 @@
                 </table>
             </div>
         </article>
-        <aricle id="songView" class="hide"> 
-            this is the single song life we trying! 
+        <aricle id="songView" class="hide">
+            this is the single song life we trying!
         </aricle>
         <article id="playlistView" class="hide">
             this will be playlist view!
         </article>
+        <div id="toast"></div>
     </div>
 </body>
 

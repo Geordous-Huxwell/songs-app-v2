@@ -3,6 +3,7 @@ body {
     color: #2C3531;
     margin: 0;
     padding: 0;
+    font-family: Arial;
 }
 
 
@@ -15,7 +16,6 @@ body {
     /* margin-top: 6em; */
     background-color: #116466;
     color: #d9b08c;
-    font-family: Arial;
     border: 5px solid #2C3531;
     border-radius: 20px;
     box-shadow: 0px 0px 5px 5px#2C3531;
@@ -154,7 +154,8 @@ table.topazCells tfoot .links a {
 .btn:hover {
     background: #1BA098;
     color: #821f76;
-    font-weight: 900;
+    font-weight: 600;
+    cursor: pointer;
 }
 
 .btn:active {
@@ -204,6 +205,7 @@ nav {
     color: #D1E8E2;
     margin-bottom: 2em;
     height: 10%;
+    min-height: 80px;
 }
 
 .nav-container {
@@ -216,13 +218,20 @@ nav {
     height: auto;
     float: right;
     display: flex;
-    margin-right: 3rem;
+    justify-content: center;
+    margin-right: 15rem;
+    /* border: white 1px solid; */
 }
 
 #menu li {
     display: flex;
     list-style: none;
-    padding: 0.5em 1em 0.5em 1em;
+    padding: 0.5em 1em;
+    border: 3px white solid;
+    border-collapse: collapse;
+    border-radius: 10px;
+    margin: 0px 10px;
+    font-weight: 600;
     /* 
     height: 40px;
     line-height: 43px;
@@ -242,6 +251,7 @@ nav {
     border-radius: 10px;
     font-weight: 900;
     box-shadow: 2px 2px 1px #666666;
+    cursor: pointer;
 }
 
 .nav-title {
@@ -287,4 +297,80 @@ progress::-moz-progress-bar {
 .playlist-add-btn:active {
     position: relative;
     top: 1px;
+}
+
+#toast {
+    visibility: hidden;
+    min-width: 200px;
+    margin-left: -125px;
+    background-color: #821f76;
+    color: #fff;
+    text-align: center;
+    border: 3px black solid;
+    border-radius: 10px;
+    padding: 10px;
+    position: fixed;
+    /* Sit on top of the screen */
+    z-index: 1;
+    left: 65%;
+    bottom: 30px;
+    box-shadow: rgba(0, 0, 0, 0.5) 8px 6px 4px 7px;
+}
+
+
+/* toast animation recipe from https://www.w3schools.com/howto/howto_js_snackbar.asp */
+
+#toast.show {
+    visibility: visible;
+    /* Add animation: Take 0.5 seconds to fade in and out.
+    Delay the fade out process for 2.5 seconds */
+    -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+    animation: fadein 0.5s, fadeout 0.5s 2.5s;
+}
+
+
+/* Animations to fade the toast in and out */
+
+@-webkit-keyframes fadein {
+    from {
+        bottom: 0;
+        opacity: 0;
+    }
+    to {
+        bottom: 30px;
+        opacity: 1;
+    }
+}
+
+@keyframes fadein {
+    from {
+        bottom: 0;
+        opacity: 0;
+    }
+    to {
+        bottom: 30px;
+        opacity: 1;
+    }
+}
+
+@-webkit-keyframes fadeout {
+    from {
+        bottom: 30px;
+        opacity: 1;
+    }
+    to {
+        bottom: 0;
+        opacity: 0;
+    }
+}
+
+@keyframes fadeout {
+    from {
+        bottom: 30px;
+        opacity: 1;
+    }
+    to {
+        bottom: 0;
+        opacity: 0;
+    }
 }
