@@ -177,6 +177,12 @@ form #song-search-form {
     margin: auto !important;
 }
 
+label {
+    background-color: #2c2b2bbe;
+    border-radius: 8px;
+    padding: 6px 6px;
+}
+
 .btn {
     border-radius: 10px;
     box-shadow: 4px 4px 3px #666666;

@@ -227,7 +227,7 @@ document.addEventListener("DOMContentLoaded", () => {
         buttonPlaylist.type = "button";
         buttonPlaylist.classList.add("playlist-add-btn");
         buttonPlaylist.setAttribute("data-songID", song.song_id);
-        buttonPlaylist.textContent = "Add";
+        buttonPlaylist.textContent = playlist.some((playlistSong) => playlistSong.song_id == song.song_id) ? "Remove" : "Add";
         rowDataButton.appendChild(buttonPlaylist);
         row.appendChild(rowDataButton);
         // putting the whole row into the song-table-body
@@ -242,7 +242,7 @@ document.addEventListener("DOMContentLoaded", () => {
         parent.appendChild(opt);
     }
 
-    document.querySelector("#filter-select").addEventListener("change", handleView)
+    document.querySelector("#filter-select").addEventListener("change", handleView);
 
     function handleView(e) {
         const selectedFilter = e.target.value;
@@ -294,7 +294,8 @@ document.addEventListener("DOMContentLoaded", () => {
         if (event.target.matches(".playlist-add-btn")) { // if the click 
             const songId = event.target.attributes["data-songId"].value;
             addToPlaylist(songId);
-            event.stopPropagation();
+            event.target.textContent = "Remove";
+            event.stopPropagation(); // prevent from triggering the row click listener
             // }else if(event.target.matches(".clicked-title-single")){
         } else if (event.target.matches("tr td")) {
 
