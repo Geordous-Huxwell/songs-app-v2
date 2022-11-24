@@ -93,9 +93,9 @@ document.addEventListener("DOMContentLoaded", () => {
         if (target.matches("i")) {
             console.log('target id', target.id);
             document.querySelectorAll("i").forEach(i => {
-                i.classList.remove("active-sort-arrow"); // this gets all the i's and removes it 
+                i.classList.remove("active-sort-arrow"); // this gets all the i's and removes the active arrow class 
             });
-            target.classList.add("active-sort-arrow"); // adds an active sort arrow for alphabetically.n
+            target.classList.add("active-sort-arrow"); // adds an active sort arrow class
 
             if (target.id == currentSort) {
                 filteredSongs ? buildSongTable(filteredSongs.reverse()) : buildSongTable(songs.reverse());
@@ -207,9 +207,16 @@ document.addEventListener("DOMContentLoaded", () => {
         const rowDataButton = document.createElement("td");
         const buttonPlaylist = document.createElement("button");
         buttonPlaylist.type = "button";
-        buttonPlaylist.classList.add("playlist-add-btn");
+
         buttonPlaylist.setAttribute("data-songID", song.song_id);
-        buttonPlaylist.textContent = playlist.some((playlistSong) => playlistSong.song_id == song.song_id) ? "Remove" : "Add";
+        if (playlist.some((playlistSong) => playlistSong.song_id == song.song_id)) {
+            buttonPlaylist.textContent = "Remove";
+            buttonPlaylist.classList.add("playlist-remove-btn");
+        } else {
+            buttonPlaylist.textContent = "Add";
+            buttonPlaylist.classList.add("playlist-add-btn");
+        }
+
         rowDataButton.appendChild(buttonPlaylist);
         row.appendChild(rowDataButton);
         // putting the whole row into the song-table-body
@@ -272,13 +279,25 @@ document.addEventListener("DOMContentLoaded", () => {
 
     document.querySelector("tbody").addEventListener('click', (event) => { // this is getting an event listener for the entire table body.
         //console.dir(event.target);
-        //const songId = event.target.attributes["data-songId"].value;  HI THis cant be out of here rn bc its taking the use of value
-        if (event.target.matches(".playlist-add-btn")) { // if the click 
+        if (event.target.matches(".playlist-add-btn")) {
+            event.target.classList.remove("playlist-add-btn")
+            event.target.classList.add("playlist-remove-btn")
+            event.target.textContent = "Remove";
+
             const songId = event.target.attributes["data-songId"].value;
             addToPlaylist(songId);
-            event.target.textContent = "Remove";
+
             event.stopPropagation(); // prevent from triggering the row click listener
-            // }else if(event.target.matches(".clicked-title-single")){
+        } else if (event.target.matches(".playlist-remove-btn")) {
+            event.target.classList.remove("playlist-remove-btn")
+            event.target.classList.add("playlist-add-btn")
+            event.target.textContent = "Add";
+
+            const songId = event.target.attributes["data-songId"].value;
+            removeFromPlaylist(songId)
+
+            event.stopPropagation(); // prevent from triggering the row click listener
+
         } else if (event.target.matches("tr td")) {
 
             console.dir(event.target);
@@ -301,6 +320,15 @@ document.addEventListener("DOMContentLoaded", () => {
         console.log("modified playlist", playlist);
         localStorage.setItem("playlist", JSON.stringify(playlist));
         makeToast("Song Added to Playlist!");
+    }
+
+    function removeFromPlaylist(songId) {
+        const index = playlist.findIndex(song => {
+            return song.song_id == songId;
+        });
+        playlist.splice(index, 1);
+        console.log(playlist)
+        makeToast("Song Removed from Playlist!");
     }
 
     function makeToast(msg) {
