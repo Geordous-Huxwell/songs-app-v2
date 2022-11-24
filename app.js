@@ -1,8 +1,22 @@
-// this gets the songs from randys api and put them into a JSON file.
 document.addEventListener("DOMContentLoaded", () => {
+    // checks if song data exists in localstorage and if not, gets the songs from randys api and put them into a JSON object
     if (!localStorage.getItem("songs")) {
         const api = "https://www.randyconnolly.com/funwebdev/3rd/api/music/songs-nested.php";
-        loadJSON(api, loadData);
+        fetch(api)
+            .then(res => res.json())
+            .then(data => {
+                loadData(data)
+            })
+    }
+
+    /**
+     * This function loads the data with the JSON data thats been put into strings.
+     * 
+     * @param {*} data 
+     */
+    function loadData(data) {
+        console.log(data);
+        localStorage.setItem("songs", JSON.stringify(data));
     }
 
     /**
@@ -27,7 +41,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const artists = JSON.parse(artistsJSON);
     const genres = JSON.parse(genresJSON);
     let reverseSongs = []; // this is just an empty array for the reverse song. 
-    let currentSort = "title"; // this is sorting the automatic list by title.
+    let currentSort = "title"; // this defaults the table to sorting by song title
 
     console.log("songs object", songs);
     console.log("sessionStorage", sessionStorage);
@@ -53,8 +67,8 @@ document.addEventListener("DOMContentLoaded", () => {
                 compare1 = a.year;
                 compare2 = b.year;
             } else if (column == "popularity") {
-                compare1 = a.details.popularity;
-                compare2 = b.details.popularity;
+                compare1 = b.details.popularity; //swapped a and b so that popularity sorts by highest first
+                compare2 = a.details.popularity;
             } else {
                 compare1 = String(a.title).toLowerCase();
                 compare2 = String(b.title).toLowerCase();
@@ -148,38 +162,6 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 
-
-
-    /**
-     * This is a function that passes in the path and the success is the loadData function
-     * its getting called if songs is not in localStorage (at top of page) this is going to 
-     * be called once.
-     * 
-     * this will get rewritten based on lab learnings- quick fixes
-     * @param {*} path  thus us the given path 
-     * @param {*} success this is the load data function just renamed.
-     */
-    function loadJSON(path, success) {
-        var xhr = new XMLHttpRequest();
-        xhr.onreadystatechange = function() {
-            if (xhr.readyState === 4) {
-                if (xhr.status === 200) {
-                    success(JSON.parse(xhr.responseText));
-                }
-            };
-            xhr.open('GET', path, true);
-            xhr.send();
-        }
-    }
-    /**
-     * This function loads the data with the JSON data thats been put into strings.
-     * 
-     * @param {*} data 
-     */
-    function loadData(data) {
-        console.log(data);
-        localStorage.setItem("songs", JSON.stringify(data));
-    }
 
     function buildSongTable(songs) {
         document.querySelector("tbody").innerHTML = "";
