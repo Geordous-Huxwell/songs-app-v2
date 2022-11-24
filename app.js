@@ -319,16 +319,18 @@ document.addEventListener("DOMContentLoaded", () => {
         playlist.push(songData);
         console.log("modified playlist", playlist);
         localStorage.setItem("playlist", JSON.stringify(playlist));
-        makeToast("Song Added to Playlist!");
+        makeToast(`"${songData.title}" Added to Playlist!`);
     }
 
     function removeFromPlaylist(songId) {
         const index = playlist.findIndex(song => {
             return song.song_id == songId;
         });
+        const title = playlist[index].title
         playlist.splice(index, 1);
-        console.log(playlist)
-        makeToast("Song Removed from Playlist!");
+        console.log('modified playlist', playlist)
+        localStorage.setItem("playlist", JSON.stringify(playlist));
+        makeToast(`"${title}" Removed from Playlist!`);
     }
 
     function makeToast(msg) {
