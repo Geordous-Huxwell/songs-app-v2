@@ -319,7 +319,7 @@ document.addEventListener("DOMContentLoaded", () => {
         playlist.push(songData);
         console.log("modified playlist", playlist);
         localStorage.setItem("playlist", JSON.stringify(playlist));
-        makeToast(`"${songData.title}" Added to Playlist!`);
+        makeToast(`"${songData.title}" Added to Playlist!`, '#toast', 3000);
     }
 
     function removeFromPlaylist(songId) {
@@ -330,14 +330,16 @@ document.addEventListener("DOMContentLoaded", () => {
         playlist.splice(index, 1);
         console.log('modified playlist', playlist)
         localStorage.setItem("playlist", JSON.stringify(playlist));
-        makeToast(`"${title}" Removed from Playlist!`);
+        makeToast(`"${title}" Removed from Playlist!`, '#toast', 3000);
     }
 
-    function makeToast(msg) {
-        let toast = document.querySelector("#toast");
-        toast.textContent = msg;
+    function makeToast(msg, targetToast, timer) {
+        let toast = document.querySelector(targetToast);
+        if (targetToast == '#toast') {
+            toast.textContent = msg;
+        }
         toast.classList.add("show");
-        setTimeout(() => { toast.classList.remove("show") }, 3000);
+        setTimeout(() => { toast.classList.remove("show") }, timer);
     }
 
     function singleSongPageView(songId) {
@@ -359,5 +361,8 @@ document.addEventListener("DOMContentLoaded", () => {
         // className=hide which will hide the display of the views. 
     }
 
+    document.querySelector('#credits-btn').addEventListener('mouseover', () => {
+        makeToast('', "#credits-toast", 3000)
+    })
 
 });

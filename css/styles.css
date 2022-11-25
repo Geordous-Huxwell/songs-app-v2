@@ -363,6 +363,21 @@ progress::-moz-progress-bar {
 }
 
 
+/* #toast {
+    left: 65%;
+    bottom: 30px;
+}
+
+#credits-toast {
+    left: 50%;
+    bottom: 30px
+} */
+
+a {
+    color: #fff;
+}
+
+
 /* toast animation recipe from https://www.w3schools.com/howto/howto_js_snackbar.asp */
 
 #toast.show {
@@ -416,6 +431,74 @@ progress::-moz-progress-bar {
     }
     to {
         bottom: 0;
+        opacity: 0;
+    }
+}
+
+#credits-toast {
+    visibility: hidden;
+    min-width: 200px;
+    margin-left: -125px;
+    background-color: #821f76;
+    color: #fff;
+    text-align: center;
+    border: 3px black solid;
+    border-radius: 10px;
+    padding: 10px;
+    position: fixed;
+    /* Sit on top of the screen */
+    z-index: 1;
+    left: 65%;
+    top: 80px;
+    box-shadow: rgba(0, 0, 0, 0.5) 8px 6px 4px 7px;
+}
+
+#credits-toast.show {
+    visibility: visible;
+    -webkit-animation: fadein2 0.5s, fadeout2 0.5s 4.5s;
+    animation: fadein2 0.5s, fadeout2 0.5s 4.5s;
+}
+
+@-webkit-keyframes fadein2 {
+    from {
+        top: 0;
+        opacity: 0;
+    }
+    to {
+        top: 80px;
+        opacity: 1;
+    }
+}
+
+@keyframes fadein2 {
+    from {
+        top: 0;
+        opacity: 0;
+    }
+    to {
+        top: 80px;
+        opacity: 1;
+    }
+}
+
+@-webkit-keyframes fadeout2 {
+    from {
+        top: 80px;
+        opacity: 1;
+    }
+    to {
+        top: 0;
+        opacity: 0;
+    }
+}
+
+@keyframes fadeout2 {
+    from {
+        top: 80px;
+        opacity: 1;
+    }
+    to {
+        top: 0;
         opacity: 0;
     }
 }
