@@ -87,8 +87,6 @@ i {
     font-size: 15px;
     margin-left: 5px;
     cursor: pointer;
-    /* font-weight: 600; */
-    /* color: #D1E8E2; */
 }
 
 .active-sort-arrow {
@@ -108,32 +106,6 @@ i {
 #genre-col-header {
     min-width: 115px;
 }
-
-
-/* .fa-arrow-up-a-z{
-    font-size: 20px;
-    font-weight: 600;
-    color: #D1E8E2; ]
-}
-
-.
-/* 
-table.topazCells tfoot td {
-    font-size: 13px;
-} */
-
-
-/* table.topazCells tfoot .links {
-    text-align: right;
-}
-
-table.topazCells tfoot .links a {
-    display: inline-block;
-    background: white;
-    color: #A43152;
-    padding: 2px 8px;
-    border-radius: 5px;
-} */
 
 .form-background {
     display: block;
@@ -439,8 +411,8 @@ a {
     visibility: hidden;
     min-width: 200px;
     margin-left: -125px;
-    background-color: #821f76;
-    color: #fff;
+    background-color: #116466;
+    color: #d9b08c;
     text-align: center;
     border: 3px black solid;
     border-radius: 10px;
