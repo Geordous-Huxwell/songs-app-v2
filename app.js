@@ -221,6 +221,15 @@ document.addEventListener("DOMContentLoaded", () => {
         buttonPlaylist.textContent = playlist.some((playlistSong) => playlistSong.song_id == song.song_id) ? "Remove" : "Add";
         rowDataButton.appendChild(buttonPlaylist);
         row.appendChild(rowDataButton);
+        // creating td for the button to see song details
+        // const rowDataButton2=document.createElement("td");
+        // const buttonDetails = document.createElement("button");
+        // buttonDetails.type = "button";
+        // buttonDetails.classList.add("details-add-btn");
+        // buttonDetails.setAttribute("data-songID", song.song_id);
+        // //buttonDetails.textContent = singleSong.so
+        // rowDataButton2.appendChild(buttonDetails);
+        // row.appendChild(rowDataButton2);
         // putting the whole row into the song-table-body
         parentElement.appendChild(row);
 
@@ -312,12 +321,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     function addToPlaylist(songId) {
-<<<<<<< HEAD
-       // switchDisplay("playlist-view")
-        const songData = songs.filter(song => {
-=======
         const songData = songs.find(song => {
->>>>>>> 5c1127423a0e56240b45c4e6f87d4a7779444354
             return song.song_id == songId;
         });
         playlist.push(songData);
@@ -327,12 +331,16 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     function singleSongPageView(songId) {
-
         const foundSongData = songs.find(song => song.song_id == songId);
         console.log("This is the found song data");
         console.log(foundSongData);
-    }
+        console.log("title:");
+        console.log(foundSongData.title);
 
+    }
+    // document.querySelector("#songButton").addEventListener("click", () =>{
+    //     switchDisplay("single-song-page")
+    // });
     document.querySelector("#playlistButton").addEventListener("click", () =>{
         switchDisplay("playlist-view")
     });
@@ -351,8 +359,8 @@ document.addEventListener("DOMContentLoaded", () => {
          console.log("this is dispay choice", displayChoice);
 
          if(displayChoice == "single-song-page"){
-            console.log("hiii")
-            const hi = 
+            //console.log("hiii")
+           // const hi = 
             elementsToHide.push(document.querySelector("#searchView"));
             elementsToHide.push(document.querySelector("#playlistView"));
          } else if (displayChoice == "playlist-view"){
