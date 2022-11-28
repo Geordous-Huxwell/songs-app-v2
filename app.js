@@ -210,16 +210,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
         rowDataButton.appendChild(buttonPlaylist);
         row.appendChild(rowDataButton);
-        // creating td for the button to see song details
-        // const rowDataButton2=document.createElement("td");
-        // const buttonDetails = document.createElement("button");
-        // buttonDetails.type = "button";
-        // buttonDetails.classList.add("details-add-btn");
-        // buttonDetails.setAttribute("data-songID", song.song_id);
-        // //buttonDetails.textContent = singleSong.so
-        // rowDataButton2.appendChild(buttonDetails);
-        // row.appendChild(rowDataButton2);
-        // putting the whole row into the song-table-body
         parentElement.appendChild(row);
 
     }
@@ -355,18 +345,43 @@ document.addEventListener("DOMContentLoaded", () => {
         const foundSongData = songs.find(song => song.song_id == songId);
         console.log("This is the found song data");
         console.log(foundSongData);
+        // select parent 
+        const ssParent = document.querySelector('.songview-parent');
+        
+       const singleSongRadarDisplay= document.createElement("div");
+        
+        ssParent.appendChild( createInfopage(foundSongData));
+        ssParent.appendChild(createRadarpage(foundSongData));
+        
         console.log("title:");
         console.log(foundSongData.title);
 
     }
+    function createInfopage(foundSongData){
+        const div= document.createElement("div");
+       let h2= document.createElement("h2");
+       h2.textContent = foundSongData.title;
+       div.appendChild(h2);
+       return div;
+    }
+    function createRadarpage(foundSongData){
+        let r= document.createElement('p');
+        r.textContent = "wowwowow radar";
+        return r;
+    }
+
+
     // document.querySelector("#songButton").addEventListener("click", () =>{
     //     switchDisplay("single-song-page")
     // });
-    document.querySelector("#playlistButton").addEventListener("click", () =>{
-        switchDisplay("playlist-view")
+    document.querySelector("#playlistButton").addEventListener('click', () => {
+        switchDisplay("playlist-view");
     });
-    document.querySelector("#searchButton").addEventListener("click",()=>{
-        switchDisplay()
+    document.querySelector("#searchButton").addEventListener('click', () => {
+        switchDisplay();
+    });
+    document.querySelector('td').addEventListener('click',()=>{
+        switchDisplay("single-song-page");
     })
     //outline in my brain for the switching 
     // build funtion that brings in the selected view they want. event 
@@ -399,5 +414,7 @@ document.addEventListener("DOMContentLoaded", () => {
     document.querySelector('#credits-btn').addEventListener('mouseover', () => {
         makeToast('', "#credits-toast", 3000)
     })
+
+    
 
 });

@@ -474,3 +474,18 @@ a {
         opacity: 0;
     }
 }
+
+
+/*Circle Progress Bar stuff single song page
+* https://alvarotrigo.com/blog/progress-bar-css/
+ */
+/*done tests */
+.songview-parent{
+   display: grid;
+   grid-template-columns: 1fr 1fr;
+
+}
+.songview-parent div{
+    width: auto;
+    margin: 10px;
+}
