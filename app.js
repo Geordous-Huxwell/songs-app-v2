@@ -298,13 +298,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
             event.stopPropagation(); // prevent from triggering the row click listener
 
-        } else if (event.target.matches("tr td")) {
+        } else {
 
             console.dir(event.target);
 
             // jill code go to single song page 
             const songId = event.target.parentElement.dataset.songid;
-            
+            switchDisplay("single-song-page");
             singleSongPageView(songId);
             event.stopPropagation();
         }
@@ -343,17 +343,16 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function singleSongPageView(songId) {
         const foundSongData = songs.find(song => song.song_id == songId);
-        console.log("This is the found song data");
-        console.log(foundSongData);
+        console.log("This is the found song data", foundSongData);
         // select parent 
         const ssParent = document.querySelector('.songview-parent');
+        ssParent.replaceChildren()
+        console.log('ssParent', ssParent);
         
-    
         ssParent.appendChild( createInfopage(foundSongData));
         ssParent.appendChild(createRadarpage(foundSongData));
         
-        console.log("title:");
-        console.log(foundSongData.title);
+        console.log("title:", foundSongData.title);
 
     }
     function createInfopage(foundSongData){
@@ -365,11 +364,12 @@ document.addEventListener("DOMContentLoaded", () => {
         let h3= document.createElement("h3");
        h3.textContent = foundSongData.artist.name;
        //analysis circle
-       //createCircle(foundSongData);
+       let gageDiv = createCircle(foundSongData);
 
        // adding created elements 
        div.appendChild(h2);
        div.appendChild(h3);
+       div.append(gageDiv);
        return div;
     }
     function createRadarpage(foundSongData){
@@ -378,11 +378,15 @@ document.addEventListener("DOMContentLoaded", () => {
         return r;
     }
     function createCircle(foundSongData){
-        let div = document.createElement("div");
-        div.classList="wrap-circles";
-        for(let a of foundSongData.analytics){
-            console.log(a);
-        }
+        let divGages = document.createElement("div");
+        divGages.classList = "wrap-circles";
+        divGages.id = "chart_div";
+        google.charts.setOnLoadCallback(()=>drawChart(foundSongData));
+        //drawChart();
+        return divGages
+        //for(let a of foundSongData.analytics){
+        //    console.log(a);
+        //}
     }
 
     // document.querySelector("#songButton").addEventListener("click", () =>{
@@ -428,6 +432,62 @@ document.addEventListener("DOMContentLoaded", () => {
     document.querySelector('#credits-btn').addEventListener('mouseover', () => {
         makeToast('', "#credits-toast", 3000)
     })
+
+
+
+
+
+    /**
+     * IMPORTED GAGES STUFFF
+     * 
+     */
+     google.charts.load('current', {
+        'packages': ['gauge']
+      });
+      //google.charts.setOnLoadCallback(drawChart);
+
+      function drawChart(foundSongData) {
+        console.log("your in drawchart", foundSongData);
+        console.log("this is getting its accustics", foundSongData.analytics.acousticness);
+        var data = google.visualization.arrayToDataTable([
+          ['Label', 'Value'],
+          ['Acoustic', foundSongData.analytics.acousticness],
+          ['Popularity', foundSongData.analytics.popularity],
+          ['Speechness', foundSongData.analytics.speechiness],
+          ['Energy', foundSongData.analytics.energy],
+          ['Valence', foundSongData.analytics.valence],
+          ['Danceability', foundSongData.analytics.danceability],
+          ['Liveness', foundSongData.analytics.liveness],
+          
+        ]);
+
+        var options = {
+          width: 600,
+          height: 120,
+          redFrom: 90,
+          redTo: 100,
+          yellowFrom: 75,
+          yellowTo: 90,
+          minorTicks: 5
+        };
+
+        var chart = new google.visualization.Gauge(document.getElementById('chart_div'));
+
+        chart.draw(data, options);
+
+        setInterval(function() {
+          data.setValue(0, 1, 40 + Math.round(60 * Math.random()));
+          chart.draw(data, options);
+        }, 13000);
+        setInterval(function() {
+          data.setValue(1, 1, 40 + Math.round(60 * Math.random()));
+          chart.draw(data, options);
+        }, 5000);
+        setInterval(function() {
+          data.setValue(2, 1, 60 + Math.round(20 * Math.random()));
+          chart.draw(data, options);
+        }, 26000);
+      }
 
     
 
