@@ -154,7 +154,7 @@ document.addEventListener("DOMContentLoaded", () => {
      * This is a function that passes in the path and the success is the loadData function
      * its getting called if songs is not in localStorage (at top of page) this is going to 
      * be called once.
-     * 
+     *  
      * this will get rewritten based on lab learnings- quick fixes
      * @param {*} path  thus us the given path 
      * @param {*} success this is the load data function just renamed.
@@ -188,6 +188,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
         // alphaSortColumn("title"); // makes life never load! (causes infinite loop)
     }
+    
     /*
     this function wil output the table row by the passed in song 
     */
@@ -227,7 +228,7 @@ document.addEventListener("DOMContentLoaded", () => {
         buttonPlaylist.type = "button";
         buttonPlaylist.classList.add("playlist-add-btn");
         buttonPlaylist.setAttribute("data-songID", song.song_id);
-        buttonPlaylist.textContent = playlist.some((playlistSong) => playlistSong.song_id == song.song_id) ? "Remove" : "Add";
+        buttonPlaylist.textContent = "Add";
         rowDataButton.appendChild(buttonPlaylist);
         row.appendChild(rowDataButton);
         // putting the whole row into the song-table-body
@@ -242,7 +243,7 @@ document.addEventListener("DOMContentLoaded", () => {
         parent.appendChild(opt);
     }
 
-    document.querySelector("#filter-select").addEventListener("change", handleView);
+    document.querySelector("#filter-select").addEventListener("change", handleView)
 
     function handleView(e) {
         const selectedFilter = e.target.value;
@@ -294,8 +295,7 @@ document.addEventListener("DOMContentLoaded", () => {
         if (event.target.matches(".playlist-add-btn")) { // if the click 
             const songId = event.target.attributes["data-songId"].value;
             addToPlaylist(songId);
-            event.target.textContent = "Remove";
-            event.stopPropagation(); // prevent from triggering the row click listener
+            event.stopPropagation();
             // }else if(event.target.matches(".clicked-title-single")){
         } else if (event.target.matches("tr td")) {
 
