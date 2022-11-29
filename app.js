@@ -1,8 +1,22 @@
-// this gets the songs from randys api and put them into a JSON file.
 document.addEventListener("DOMContentLoaded", () => {
+    // checks if song data exists in localstorage and if not, gets the songs from randys api and put them into a JSON object
     if (!localStorage.getItem("songs")) {
         const api = "https://www.randyconnolly.com/funwebdev/3rd/api/music/songs-nested.php";
-        loadJSON(api, loadData);
+        fetch(api)
+            .then(res => res.json())
+            .then(data => {
+                loadData(data)
+            })
+    }
+
+    /**
+     * This function loads the data with the JSON data thats been put into strings.
+     * 
+     * @param {*} data 
+     */
+    function loadData(data) {
+        console.log(data);
+        localStorage.setItem("songs", JSON.stringify(data));
     }
 
     /**
@@ -27,7 +41,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const artists = JSON.parse(artistsJSON);
     const genres = JSON.parse(genresJSON);
     let reverseSongs = []; // this is just an empty array for the reverse song. 
-    let currentSort = "title"; // this is sorting the automatic list by title.
+    let currentSort = "title"; // this defaults the table to sorting by song title
 
     console.log("songs object", songs);
     console.log("sessionStorage", sessionStorage);
@@ -53,8 +67,8 @@ document.addEventListener("DOMContentLoaded", () => {
                 compare1 = a.year;
                 compare2 = b.year;
             } else if (column == "popularity") {
-                compare1 = a.details.popularity;
-                compare2 = b.details.popularity;
+                compare1 = b.details.popularity; //swapped a and b so that popularity sorts by highest first
+                compare2 = a.details.popularity;
             } else {
                 compare1 = String(a.title).toLowerCase();
                 compare2 = String(b.title).toLowerCase();
@@ -79,9 +93,9 @@ document.addEventListener("DOMContentLoaded", () => {
         if (target.matches("i")) {
             console.log('target id', target.id);
             document.querySelectorAll("i").forEach(i => {
-                i.classList.remove("active-sort-arrow"); // this gets all the i's and removes it 
+                i.classList.remove("active-sort-arrow"); // this gets all the i's and removes the active arrow class 
             });
-            target.classList.add("active-sort-arrow"); // adds an active sort arrow for alphabetically.n
+            target.classList.add("active-sort-arrow"); // adds an active sort arrow class
 
             if (target.id == currentSort) {
                 filteredSongs ? buildSongTable(filteredSongs.reverse()) : buildSongTable(songs.reverse());
@@ -137,49 +151,8 @@ document.addEventListener("DOMContentLoaded", () => {
     //     buildSongTable(songs);
     // }
 
-    /**
-     * Idk im trying to do js for the nav but unsure right yet
-     * 
-     */
-    document.querySelector("#menu").addEventListener("click", function(e) {
-        if (e.target && e.target.nodeName == "LI") {
-            // now define the handler functionality 
-            // e.stopPropogation();
-        }
-    });
 
 
-
-    /**
-     * This is a function that passes in the path and the success is the loadData function
-     * its getting called if songs is not in localStorage (at top of page) this is going to 
-     * be called once.
-     *  
-     * this will get rewritten based on lab learnings- quick fixes
-     * @param {*} path  thus us the given path 
-     * @param {*} success this is the load data function just renamed.
-     */
-    function loadJSON(path, success) {
-        var xhr = new XMLHttpRequest();
-        xhr.onreadystatechange = function() {
-            if (xhr.readyState === 4) {
-                if (xhr.status === 200) {
-                    success(JSON.parse(xhr.responseText));
-                }
-            };
-            xhr.open('GET', path, true);
-            xhr.send();
-        }
-    }
-    /**
-     * This function loads the data with the JSON data thats been put into strings.
-     * 
-     * @param {*} data 
-     */
-    function loadData(data) {
-        console.log(data);
-        localStorage.setItem("songs", JSON.stringify(data));
-    }
 
     function buildSongTable(songs) {
         document.querySelector("tbody").innerHTML = "";
@@ -226,12 +199,18 @@ document.addEventListener("DOMContentLoaded", () => {
         const rowDataButton = document.createElement("td");
         const buttonPlaylist = document.createElement("button");
         buttonPlaylist.type = "button";
-        buttonPlaylist.classList.add("playlist-add-btn");
+
         buttonPlaylist.setAttribute("data-songID", song.song_id);
-        buttonPlaylist.textContent = "Add";
+        if (playlist.some((playlistSong) => playlistSong.song_id == song.song_id)) {
+            buttonPlaylist.textContent = "Remove";
+            buttonPlaylist.classList.add("playlist-remove-btn");
+        } else {
+            buttonPlaylist.textContent = "Add";
+            buttonPlaylist.classList.add("playlist-add-btn");
+        }
+
         rowDataButton.appendChild(buttonPlaylist);
         row.appendChild(rowDataButton);
-        // putting the whole row into the song-table-body
         parentElement.appendChild(row);
 
     }
@@ -244,14 +223,23 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     document.querySelector("#filter-select").addEventListener("change", handleView)
-
+    /**
+     * This function handles the view of the selecting search options and entered things. 
+     * @param {*} e this is the event of the change action being placed when we change the select box. 
+     */
     function handleView(e) {
-        const selectedFilter = e.target.value;
+        // initiating the selected filter
+        const selectedFilter = e.target.value; 
+        console.log(e.target);
+        // this is getting all (jills ex would be article) the things with the hide class it in 
         const hideArray = document.querySelectorAll(".hide")
 
+        //loop that goes through the array of all hidden classes and removes the hide class.
         hideArray.forEach(hidden => (hidden.classList.remove("hide")));
+        // makeing an empty array that will store the elements we want to give the hide class back to. 
         const elements = [];
         console.log(selectedFilter);
+        // if target is same then put the elements we want to hide into the hide array so then they can get the things hidden on them. 
         if (selectedFilter == "title-filter") {
             elements.push(document.querySelector("#artist-select").parentElement);
             elements.push(document.querySelector("#genre-select").parentElement);
@@ -261,7 +249,8 @@ document.addEventListener("DOMContentLoaded", () => {
         } else {
             elements.push(document.querySelector("#song-title-search").parentElement);
             elements.push(document.querySelector("#artist-select").parentElement);
-        }
+        } 
+        // adds the hide back to the elements thats in the array we set up for elements we want to hide. 
         elements.forEach(elementType => (elementType.classList.add("hide")));
     }
 
@@ -291,20 +280,31 @@ document.addEventListener("DOMContentLoaded", () => {
 
     document.querySelector("tbody").addEventListener('click', (event) => { // this is getting an event listener for the entire table body.
         //console.dir(event.target);
-        //const songId = event.target.attributes["data-songId"].value;  HI THis cant be out of here rn bc its taking the use of value
-        if (event.target.matches(".playlist-add-btn")) { // if the click 
+        if (event.target.matches(".playlist-add-btn")) {
+            event.target.classList.remove("playlist-add-btn")
+            event.target.classList.add("playlist-remove-btn")
+            event.target.textContent = "Remove";
+
             const songId = event.target.attributes["data-songId"].value;
             addToPlaylist(songId);
-            event.stopPropagation();
-            // }else if(event.target.matches(".clicked-title-single")){
+
+            event.stopPropagation(); // prevent from triggering the row click listener
+        } else if (event.target.matches(".playlist-remove-btn")) {
+            event.target.classList.remove("playlist-remove-btn")
+            event.target.classList.add("playlist-add-btn")
+            event.target.textContent = "Add";
+
+            const songId = event.target.attributes["data-songId"].value;
+            removeFromPlaylist(songId)
+
+            event.stopPropagation(); // prevent from triggering the row click listener
+
         } else if (event.target.matches("tr td")) {
 
             console.dir(event.target);
 
             // jill code go to single song page 
             const songId = event.target.parentElement.dataset.songid;
-            console.log("you made it in");
-            console.log(songId);
             singleSongPageView(songId);
             event.stopPropagation();
         }
@@ -318,34 +318,117 @@ document.addEventListener("DOMContentLoaded", () => {
         playlist.push(songData);
         console.log("modified playlist", playlist);
         localStorage.setItem("playlist", JSON.stringify(playlist));
-        makeToast("Song Added to Playlist!");
+        makeToast(`"${songData.title}" Added to Playlist!`, '#toast', 3000);
     }
 
-    function makeToast(msg) {
-        let toast = document.querySelector("#toast");
-        toast.textContent = msg;
+    function removeFromPlaylist(songId) {
+        const index = playlist.findIndex(song => {
+            return song.song_id == songId;
+        });
+        const title = playlist[index].title
+        playlist.splice(index, 1);
+        console.log('modified playlist', playlist)
+        localStorage.setItem("playlist", JSON.stringify(playlist));
+        makeToast(`"${title}" Removed from Playlist!`, '#toast', 3000);
+    }
+
+    function makeToast(msg, targetToast, timer) {
+        let toast = document.querySelector(targetToast);
+        if (targetToast == '#toast') {
+            toast.textContent = msg;
+        }
         toast.classList.add("show");
-        setTimeout(() => { toast.classList.remove("show") }, 3000);
+        setTimeout(() => { toast.classList.remove("show") }, timer);
     }
 
     function singleSongPageView(songId) {
-
         const foundSongData = songs.find(song => song.song_id == songId);
         console.log("This is the found song data");
         console.log(foundSongData);
+        // select parent 
+        const ssParent = document.querySelector('.songview-parent');
+        
+    
+        ssParent.appendChild( createInfopage(foundSongData));
+        ssParent.appendChild(createRadarpage(foundSongData));
+        
+        console.log("title:");
+        console.log(foundSongData.title);
+
+    }
+    function createInfopage(foundSongData){
+        const div= document.createElement("div");
+        // title 
+        let h2= document.createElement("h2");
+        h2.textContent = foundSongData.title;
+        //artist
+        let h3= document.createElement("h3");
+       h3.textContent = foundSongData.artist.name;
+       //analysis circle
+       //createCircle(foundSongData);
+
+       // adding created elements 
+       div.appendChild(h2);
+       div.appendChild(h3);
+       return div;
+    }
+    function createRadarpage(foundSongData){
+        let r= document.createElement('p');
+        r.textContent = "wowwowow radar";
+        return r;
+    }
+    function createCircle(foundSongData){
+        let div = document.createElement("div");
+        div.classList="wrap-circles";
+        for(let a of foundSongData.analytics){
+            console.log(a);
+        }
     }
 
+    // document.querySelector("#songButton").addEventListener("click", () =>{
+    //     switchDisplay("single-song-page")
+    // });
+    document.querySelector("#playlistButton").addEventListener('click', () => {
+        switchDisplay("playlist-view");
+    });
+    document.querySelector("#searchButton").addEventListener('click', () => {
+        switchDisplay();
+    });
+    document.querySelector('td').addEventListener('click',()=>{
+        switchDisplay("single-song-page");
+    })
     //outline in my brain for the switching 
     // build funtion that brings in the selected view they want. event 
-    function switchDisplay(displayChoice) {
-        // removing all hide classes from all articles. 
-        document.querySelectorAll(articles).classList.remove("hide");
+    function switchDisplay(displayChoice){
+         // removing all hide classes from all articles. 
+        //const displayHideArray = document.querySelectorAll(".hide");
+        //  console.log("this is the displayHideArray",displayHideArray)
+         
+         document.querySelectorAll("article").forEach(hidden => (hidden.classList.remove("hide")))
+         const elementsToHide =[];
+         console.log("this is dispay choice", displayChoice);
 
-        // baded on param given (which is the view wanted) if it is that view 
-        //DO NOTHING 
-        //else (meaning it is the other two views)
-        // className=hide which will hide the display of the views. 
+         if(displayChoice == "single-song-page"){
+            //console.log("hiii")
+           // const hi = 
+            elementsToHide.push(document.querySelector("#searchView"));
+            elementsToHide.push(document.querySelector("#playlistView"));
+         } else if (displayChoice == "playlist-view"){
+            elementsToHide.push(document.querySelector("#searchView"));
+            elementsToHide.push(document.querySelector("#songView"));
+         }else{
+            elementsToHide.push(document.querySelector("#songView"));
+            elementsToHide.push(document.querySelector("#playlistView"));
+         }
+         console.log("this is elements to hide", elementsToHide)
+         elementsToHide.forEach(elementType =>(elementType.classList.add("hide")));
+     
     }
 
+    document.querySelector('#credits-btn').addEventListener('mouseover', () => {
+        makeToast('', "#credits-toast", 3000)
+    })
+
+    
 
 });

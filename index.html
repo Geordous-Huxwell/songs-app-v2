@@ -20,12 +20,16 @@
             <h4>Jillian Bennett, Joel Conley, Harshad Krishnaraj</h4>
         </div>
         <ul id="menu">
-            <li>Search</li>
-            <li>Random</li>
-            <li>Playlist</li>
+            <li id="searchButton">Search</li>
+            <li id="playlistButton">Playlist</li>
+            <li id="credits-btn">Credits</li>
         </ul>
 
     </nav>
+    <div id="credits-toast">
+        <div>Jillian Bennett, Joel Conley, Harshad Krishnaraj</div>
+        <a href="https://github.com/Geordous-Huxwell/songs-app-v2">Github Repo</a>
+    </div>
     <div class="background">
         <article id="searchView">
             <div class="form-background">
@@ -85,16 +89,24 @@
                         <th>
                             Playlist
                         </th>
+                        
                     </thead>
                     <tbody id="song-table-body"></tbody>
                 </table>
             </div>
         </article>
-        <aricle id="songView" class="hide">
-            this is the single song life we trying!
-        </aricle>
+        <article id="songView" class="test"> 
+            <div class="songview-parent">
+                <!-- <div class="songview-child-element">
+                    element 1
+                </div>
+                <div class="songview-child-element">
+                    element 2
+                </div> -->
+            </div>
+        </article>
         <article id="playlistView" class="test">
-            this will be playlist view!
+           this will be playlist view!
             <div class="table-container">
                 <table class="topazCells">
                     <thead>
