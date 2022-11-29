@@ -350,7 +350,7 @@ document.addEventListener("DOMContentLoaded", () => {
         console.log('ssParent', ssParent);
 
         ssParent.appendChild(createInfopage(foundSongData));
-        ssParent.appendChild(createRadarpage(foundSongData));
+        //ssParent.appendChild(createRadarpage(foundSongData));
 
         console.log("title:", foundSongData.title);
 
@@ -358,15 +358,46 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function createInfopage(foundSongData) {
         const div = document.createElement("div");
+
+        //let div = document.querySelector('.songview-parent');
         // title 
-        let h2 = document.createElement("h2");
-        h2.textContent = foundSongData.title;
+        let titlee = document.createElement("h2");
+        titlee.id="title"
+        console.log(titlee)
+        titlee.textContent = "title: " +foundSongData.title;
+
         //artist
-        let h3 = document.createElement("h3");
-        h3.textContent = foundSongData.artist.name;
+        let artistName = document.createElement("h3");
+        artistName.id= "artist-name";
+        artistName.textContent = "artist name: "+foundSongData.artist.name;
+        // artist type 
+        let artistType = document.createElement("h4");
+        artistType.id = "artist-type";
+        // find the artist type based on json artists file 
+        let artistnameLooking = foundSongData.artist.name;
+        let artistTypeFound; 
+        for(let a of artists){
+            if (a.name == artistnameLooking){
+                artistTypefound = a.type;
+            }
+        }
+
+        artistType.textContent = "artist type: " +artistTypefound;
+        //genre
+        let genree = document.createElement("h3"); 
+        genree.id = "genre";
+        genree.textContent = "genre: " +foundSongData.genre.name;
+        // year 
+        let yearr = document.createElement("h3");
+        yearr.id = "year";
+        yearr.textContent = "year: "+foundSongData.year;
+        // duration 
+        let durationn = document.createElement("h3");
+        durationn.id ="duration";
+        durationn.textContent = "duration: "+foundSongData.details.duration;
         //analysis circle
         let gageDiv = createCircle(foundSongData);
-
+        // BPM thing
         let bpmDiv = document.createElement("h2")
         let bpm = foundSongData.details.bpm;
         bpmDiv.textContent = "BPM: " + bpm;
@@ -376,18 +407,23 @@ document.addEventListener("DOMContentLoaded", () => {
         bpmDiv.style.setProperty("animation", `blinkingBackground ${beatSec}s infinite`)
 
         // adding created elements 
-        div.appendChild(h2);
-        div.appendChild(h3);
+        div.appendChild(titlee);
+        div.appendChild(artistName);
+        div.appendChild(artistType);
+        div.appendChild(genree);
+        div.appendChild(yearr);
+        div.appendChild(durationn);
+      
         div.appendChild(bpmDiv);
         div.append(gageDiv);
         return div;
     }
 
-    function createRadarpage(foundSongData) {
-        let r = document.createElement('p');
-        r.textContent = "wowwowow radar";
-        return r;
-    }
+    // function createRadarpage(foundSongData) {
+    //     let r = document.createElement('p');
+    //     r.textContent = "wowwowow radar";
+    //     return r;
+    // }
 
     function createCircle(foundSongData) {
         let divGages = document.createElement("div");
@@ -463,42 +499,66 @@ document.addEventListener("DOMContentLoaded", () => {
         console.log("this is getting its accustics", foundSongData.analytics.acousticness);
         var data = google.visualization.arrayToDataTable([
             ['Label', 'Value'],
-            ['Acoustic', foundSongData.analytics.acousticness],
-            ['Popularity', foundSongData.analytics.popularity],
-            ['Speechness', foundSongData.analytics.speechiness],
-            ['Energy', foundSongData.analytics.energy],
-            ['Valence', foundSongData.analytics.valence],
-            ['Danceability', foundSongData.analytics.danceability],
-            ['Liveness', foundSongData.analytics.liveness],
+            ['Acoustic', 0],
+            ['Popularity', 0],
+            ['Speech', 0],
+            ['Energy', 0],
+            ['Valence', 0],
+            ['Dance', 0],
+            ['Live', 0],
 
         ]);
 
         var options = {
-            width: 600,
+            width: 800,
             height: 120,
-            redFrom: 90,
-            redTo: 100,
-            yellowFrom: 75,
-            yellowTo: 90,
-            minorTicks: 5
+            redFrom: 0,
+            redTo: 0,
+            yellowFrom: 0,
+            yellowTo: 0,
+            minorTicks: 5,
+            greenColor:"#89e5cd",
+            greenFrom: 75,
+            greenTo: 100,
+            animation: {
+                easing: "out", 
+                duration:600
+            }
         };
 
         var chart = new google.visualization.Gauge(document.getElementById('chart_div'));
 
         chart.draw(data, options);
 
-        setInterval(function() {
-            data.setValue(0, 1, 40 + Math.round(60 * Math.random()));
+        setTimeout(function() {
+            data.setValue(0, 1, foundSongData.analytics.acousticness);
             chart.draw(data, options);
-        }, 13000);
-        setInterval(function() {
-            data.setValue(1, 1, 40 + Math.round(60 * Math.random()));
+        }, 200);
+        setTimeout(function(){
+            data.setValue(1, 1, foundSongData.details.popularity);
             chart.draw(data, options);
-        }, 5000);
-        setInterval(function() {
-            data.setValue(2, 1, 60 + Math.round(20 * Math.random()));
+        }, 700);
+        setTimeout(function(){
+            data.setValue(2, 1, foundSongData.analytics.speechiness);
             chart.draw(data, options);
-        }, 26000);
+        }, 1200);
+        setTimeout(function(){
+            data.setValue(3, 1, foundSongData.analytics.energy);
+            chart.draw(data, options);
+        }, 1700);
+        setTimeout(function(){
+            data.setValue(4, 1, foundSongData.analytics.valence);
+            chart.draw(data, options);
+        }, 2200);
+
+        setTimeout(function(){
+            data.setValue(5, 1, foundSongData.analytics.danceability);
+            chart.draw(data, options);
+        }, 2700);
+        setTimeout(function(){
+            data.setValue(6, 1, foundSongData.analytics.liveness);
+            chart.draw(data, options);
+        }, 3200);
     }
 
 
