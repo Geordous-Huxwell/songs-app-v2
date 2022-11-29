@@ -151,16 +151,7 @@ document.addEventListener("DOMContentLoaded", () => {
     //     buildSongTable(songs);
     // }
 
-    /**
-     * Idk im trying to do js for the nav but unsure right yet
-     * 
-     */
-    document.querySelector("#menu").addEventListener("click", function(e) {
-        if (e.target && e.target.nodeName == "LI") {
-            // now define the handler functionality 
-            // e.stopPropogation();
-        }
-    });
+
 
 
     function buildSongTable(songs) {
@@ -219,7 +210,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
         rowDataButton.appendChild(buttonPlaylist);
         row.appendChild(rowDataButton);
-        // putting the whole row into the song-table-body
         parentElement.appendChild(row);
 
     }
@@ -231,15 +221,24 @@ document.addEventListener("DOMContentLoaded", () => {
         parent.appendChild(opt);
     }
 
-    document.querySelector("#filter-select").addEventListener("change", handleView);
-
+    document.querySelector("#filter-select").addEventListener("change", handleView)
+    /**
+     * This function handles the view of the selecting search options and entered things. 
+     * @param {*} e this is the event of the change action being placed when we change the select box. 
+     */
     function handleView(e) {
-        const selectedFilter = e.target.value;
+        // initiating the selected filter
+        const selectedFilter = e.target.value; 
+        console.log(e.target);
+        // this is getting all (jills ex would be article) the things with the hide class it in 
         const hideArray = document.querySelectorAll(".hide")
 
+        //loop that goes through the array of all hidden classes and removes the hide class.
         hideArray.forEach(hidden => (hidden.classList.remove("hide")));
+        // makeing an empty array that will store the elements we want to give the hide class back to. 
         const elements = [];
         console.log(selectedFilter);
+        // if target is same then put the elements we want to hide into the hide array so then they can get the things hidden on them. 
         if (selectedFilter == "title-filter") {
             elements.push(document.querySelector("#artist-select").parentElement);
             elements.push(document.querySelector("#genre-select").parentElement);
@@ -249,7 +248,8 @@ document.addEventListener("DOMContentLoaded", () => {
         } else {
             elements.push(document.querySelector("#song-title-search").parentElement);
             elements.push(document.querySelector("#artist-select").parentElement);
-        }
+        } 
+        // adds the hide back to the elements thats in the array we set up for elements we want to hide. 
         elements.forEach(elementType => (elementType.classList.add("hide")));
     }
 
@@ -304,8 +304,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
             // jill code go to single song page 
             const songId = event.target.parentElement.dataset.songid;
-            console.log("you made it in");
-            console.log(songId);
+            
             singleSongPageView(songId);
             event.stopPropagation();
         }
@@ -343,26 +342,93 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     function singleSongPageView(songId) {
-
         const foundSongData = songs.find(song => song.song_id == songId);
         console.log("This is the found song data");
         console.log(foundSongData);
+        // select parent 
+        const ssParent = document.querySelector('.songview-parent');
+        
+    
+        ssParent.appendChild( createInfopage(foundSongData));
+        ssParent.appendChild(createRadarpage(foundSongData));
+        
+        console.log("title:");
+        console.log(foundSongData.title);
+
+    }
+    function createInfopage(foundSongData){
+        const div= document.createElement("div");
+        // title 
+        let h2= document.createElement("h2");
+        h2.textContent = foundSongData.title;
+        //artist
+        let h3= document.createElement("h3");
+       h3.textContent = foundSongData.artist.name;
+       //analysis circle
+       //createCircle(foundSongData);
+
+       // adding created elements 
+       div.appendChild(h2);
+       div.appendChild(h3);
+       return div;
+    }
+    function createRadarpage(foundSongData){
+        let r= document.createElement('p');
+        r.textContent = "wowwowow radar";
+        return r;
+    }
+    function createCircle(foundSongData){
+        let div = document.createElement("div");
+        div.classList="wrap-circles";
+        for(let a of foundSongData.analytics){
+            console.log(a);
+        }
     }
 
+    // document.querySelector("#songButton").addEventListener("click", () =>{
+    //     switchDisplay("single-song-page")
+    // });
+    document.querySelector("#playlistButton").addEventListener('click', () => {
+        switchDisplay("playlist-view");
+    });
+    document.querySelector("#searchButton").addEventListener('click', () => {
+        switchDisplay();
+    });
+    document.querySelector('td').addEventListener('click',()=>{
+        switchDisplay("single-song-page");
+    })
     //outline in my brain for the switching 
     // build funtion that brings in the selected view they want. event 
-    function switchDisplay(displayChoice) {
-        // removing all hide classes from all articles. 
-        document.querySelectorAll(articles).classList.remove("hide");
+    function switchDisplay(displayChoice){
+         // removing all hide classes from all articles. 
+        //const displayHideArray = document.querySelectorAll(".hide");
+        //  console.log("this is the displayHideArray",displayHideArray)
+         
+         document.querySelectorAll("article").forEach(hidden => (hidden.classList.remove("hide")))
+         const elementsToHide =[];
+         console.log("this is dispay choice", displayChoice);
 
-        // baded on param given (which is the view wanted) if it is that view 
-        //DO NOTHING 
-        //else (meaning it is the other two views)
-        // className=hide which will hide the display of the views. 
+         if(displayChoice == "single-song-page"){
+            //console.log("hiii")
+           // const hi = 
+            elementsToHide.push(document.querySelector("#searchView"));
+            elementsToHide.push(document.querySelector("#playlistView"));
+         } else if (displayChoice == "playlist-view"){
+            elementsToHide.push(document.querySelector("#searchView"));
+            elementsToHide.push(document.querySelector("#songView"));
+         }else{
+            elementsToHide.push(document.querySelector("#songView"));
+            elementsToHide.push(document.querySelector("#playlistView"));
+         }
+         console.log("this is elements to hide", elementsToHide)
+         elementsToHide.forEach(elementType =>(elementType.classList.add("hide")));
+     
     }
 
     document.querySelector('#credits-btn').addEventListener('mouseover', () => {
         makeToast('', "#credits-toast", 3000)
     })
+
+    
 
 });
