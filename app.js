@@ -364,11 +364,12 @@ document.addEventListener("DOMContentLoaded", () => {
         let h3= document.createElement("h3");
        h3.textContent = foundSongData.artist.name;
        //analysis circle
-       createCircle(foundSongData);
+       let gageDiv = createCircle(foundSongData);
 
        // adding created elements 
        div.appendChild(h2);
        div.appendChild(h3);
+       div.append(gageDiv);
        return div;
     }
     function createRadarpage(foundSongData){
@@ -380,9 +381,12 @@ document.addEventListener("DOMContentLoaded", () => {
         let divGages = document.createElement("div");
         divGages.classList = "wrap-circles";
         divGages.id = "chart_div";
-        for(let a of foundSongData.analytics){
-            console.log(a);
-        }
+        google.charts.setOnLoadCallback(()=>drawChart(foundSongData));
+        //drawChart();
+        return divGages
+        //for(let a of foundSongData.analytics){
+        //    console.log(a);
+        //}
     }
 
     // document.querySelector("#songButton").addEventListener("click", () =>{
@@ -440,19 +444,25 @@ document.addEventListener("DOMContentLoaded", () => {
      google.charts.load('current', {
         'packages': ['gauge']
       });
-      google.charts.setOnLoadCallback(drawChart);
+      //google.charts.setOnLoadCallback(drawChart);
 
-      function drawChart() {
-
+      function drawChart(foundSongData) {
+        console.log("your in drawchart", foundSongData);
+        console.log("this is getting its accustics", foundSongData.analytics.acousticness);
         var data = google.visualization.arrayToDataTable([
           ['Label', 'Value'],
-          ['Memory', 80],
-          ['CPU', 55],
-          ['Network', 68]
+          ['Acoustic', foundSongData.analytics.acousticness],
+          ['Popularity', foundSongData.analytics.popularity],
+          ['Speechness', foundSongData.analytics.speechiness],
+          ['Energy', foundSongData.analytics.energy],
+          ['Valence', foundSongData.analytics.valence],
+          ['Danceability', foundSongData.analytics.danceability],
+          ['Liveness', foundSongData.analytics.liveness],
+          
         ]);
 
         var options = {
-          width: 400,
+          width: 600,
           height: 120,
           redFrom: 90,
           redTo: 100,
