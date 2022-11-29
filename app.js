@@ -348,8 +348,7 @@ document.addEventListener("DOMContentLoaded", () => {
         // select parent 
         const ssParent = document.querySelector('.songview-parent');
         
-       const singleSongRadarDisplay= document.createElement("div");
-        
+    
         ssParent.appendChild( createInfopage(foundSongData));
         ssParent.appendChild(createRadarpage(foundSongData));
         
@@ -359,9 +358,18 @@ document.addEventListener("DOMContentLoaded", () => {
     }
     function createInfopage(foundSongData){
         const div= document.createElement("div");
-       let h2= document.createElement("h2");
-       h2.textContent = foundSongData.title;
+        // title 
+        let h2= document.createElement("h2");
+        h2.textContent = foundSongData.title;
+        //artist
+        let h3= document.createElement("h3");
+       h3.textContent = foundSongData.artist.name;
+       //analysis circle
+       //createCircle(foundSongData);
+
+       // adding created elements 
        div.appendChild(h2);
+       div.appendChild(h3);
        return div;
     }
     function createRadarpage(foundSongData){
@@ -369,7 +377,13 @@ document.addEventListener("DOMContentLoaded", () => {
         r.textContent = "wowwowow radar";
         return r;
     }
-
+    function createCircle(foundSongData){
+        let div = document.createElement("div");
+        div.classList="wrap-circles";
+        for(let a of foundSongData.analytics){
+            console.log(a);
+        }
+    }
 
     // document.querySelector("#songButton").addEventListener("click", () =>{
     //     switchDisplay("single-song-page")
