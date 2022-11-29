@@ -222,13 +222,13 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     document.querySelector("#filter-select").addEventListener("change", handleView)
-    /**
-     * This function handles the view of the selecting search options and entered things. 
-     * @param {*} e this is the event of the change action being placed when we change the select box. 
-     */
+        /**
+         * This function handles the view of the selecting search options and entered things. 
+         * @param {*} e this is the event of the change action being placed when we change the select box. 
+         */
     function handleView(e) {
         // initiating the selected filter
-        const selectedFilter = e.target.value; 
+        const selectedFilter = e.target.value;
         console.log(e.target);
         // this is getting all (jills ex would be article) the things with the hide class it in 
         const hideArray = document.querySelectorAll(".hide")
@@ -248,7 +248,7 @@ document.addEventListener("DOMContentLoaded", () => {
         } else {
             elements.push(document.querySelector("#song-title-search").parentElement);
             elements.push(document.querySelector("#artist-select").parentElement);
-        } 
+        }
         // adds the hide back to the elements thats in the array we set up for elements we want to hide. 
         elements.forEach(elementType => (elementType.classList.add("hide")));
     }
@@ -348,45 +348,57 @@ document.addEventListener("DOMContentLoaded", () => {
         const ssParent = document.querySelector('.songview-parent');
         ssParent.replaceChildren()
         console.log('ssParent', ssParent);
-        
-        ssParent.appendChild( createInfopage(foundSongData));
+
+        ssParent.appendChild(createInfopage(foundSongData));
         ssParent.appendChild(createRadarpage(foundSongData));
-        
+
         console.log("title:", foundSongData.title);
 
     }
-    function createInfopage(foundSongData){
-        const div= document.createElement("div");
+
+    function createInfopage(foundSongData) {
+        const div = document.createElement("div");
         // title 
-        let h2= document.createElement("h2");
+        let h2 = document.createElement("h2");
         h2.textContent = foundSongData.title;
         //artist
-        let h3= document.createElement("h3");
-       h3.textContent = foundSongData.artist.name;
-       //analysis circle
-       let gageDiv = createCircle(foundSongData);
+        let h3 = document.createElement("h3");
+        h3.textContent = foundSongData.artist.name;
+        //analysis circle
+        let gageDiv = createCircle(foundSongData);
 
-       // adding created elements 
-       div.appendChild(h2);
-       div.appendChild(h3);
-       div.append(gageDiv);
-       return div;
+        let bpmDiv = document.createElement("h2")
+        let bpm = foundSongData.details.bpm;
+        bpmDiv.textContent = "BPM: " + bpm;
+        bpmDiv.classList.add('bpm');
+        let beatSec = (60 / bpm);
+        console.log(beatSec)
+        bpmDiv.style.setProperty("animation", `blinkingBackground ${beatSec}s infinite`)
+
+        // adding created elements 
+        div.appendChild(h2);
+        div.appendChild(h3);
+        div.appendChild(bpmDiv);
+        div.append(gageDiv);
+        return div;
     }
-    function createRadarpage(foundSongData){
-        let r= document.createElement('p');
+
+    function createRadarpage(foundSongData) {
+        let r = document.createElement('p');
         r.textContent = "wowwowow radar";
         return r;
     }
-    function createCircle(foundSongData){
+
+    function createCircle(foundSongData) {
         let divGages = document.createElement("div");
         divGages.classList = "wrap-circles";
         divGages.id = "chart_div";
-        google.charts.setOnLoadCallback(()=>drawChart(foundSongData));
+        google.charts.setOnLoadCallback(() => drawChart(foundSongData));
         //drawChart();
         return divGages
-        //for(let a of foundSongData.analytics){
-        //    console.log(a);
-        //}
+            //for(let a of foundSongData.analytics){
+            //    console.log(a);
+            //}
     }
 
     // document.querySelector("#songButton").addEventListener("click", () =>{
@@ -398,35 +410,35 @@ document.addEventListener("DOMContentLoaded", () => {
     document.querySelector("#searchButton").addEventListener('click', () => {
         switchDisplay();
     });
-    document.querySelector('td').addEventListener('click',()=>{
-        switchDisplay("single-song-page");
-    })
-    //outline in my brain for the switching 
-    // build funtion that brings in the selected view they want. event 
-    function switchDisplay(displayChoice){
-         // removing all hide classes from all articles. 
+    document.querySelector('td').addEventListener('click', () => {
+            switchDisplay("single-song-page");
+        })
+        //outline in my brain for the switching 
+        // build funtion that brings in the selected view they want. event 
+    function switchDisplay(displayChoice) {
+        // removing all hide classes from all articles. 
         //const displayHideArray = document.querySelectorAll(".hide");
         //  console.log("this is the displayHideArray",displayHideArray)
-         
-         document.querySelectorAll("article").forEach(hidden => (hidden.classList.remove("hide")))
-         const elementsToHide =[];
-         console.log("this is dispay choice", displayChoice);
 
-         if(displayChoice == "single-song-page"){
+        document.querySelectorAll("article").forEach(hidden => (hidden.classList.remove("hide")))
+        const elementsToHide = [];
+        console.log("this is dispay choice", displayChoice);
+
+        if (displayChoice == "single-song-page") {
             //console.log("hiii")
-           // const hi = 
+            // const hi = 
             elementsToHide.push(document.querySelector("#searchView"));
             elementsToHide.push(document.querySelector("#playlistView"));
-         } else if (displayChoice == "playlist-view"){
+        } else if (displayChoice == "playlist-view") {
             elementsToHide.push(document.querySelector("#searchView"));
             elementsToHide.push(document.querySelector("#songView"));
-         }else{
+        } else {
             elementsToHide.push(document.querySelector("#songView"));
             elementsToHide.push(document.querySelector("#playlistView"));
-         }
-         console.log("this is elements to hide", elementsToHide)
-         elementsToHide.forEach(elementType =>(elementType.classList.add("hide")));
-     
+        }
+        console.log("this is elements to hide", elementsToHide)
+        elementsToHide.forEach(elementType => (elementType.classList.add("hide")));
+
     }
 
     document.querySelector('#credits-btn').addEventListener('mouseover', () => {
@@ -441,34 +453,34 @@ document.addEventListener("DOMContentLoaded", () => {
      * IMPORTED GAGES STUFFF
      * 
      */
-     google.charts.load('current', {
+    google.charts.load('current', {
         'packages': ['gauge']
-      });
-      //google.charts.setOnLoadCallback(drawChart);
+    });
+    //google.charts.setOnLoadCallback(drawChart);
 
-      function drawChart(foundSongData) {
+    function drawChart(foundSongData) {
         console.log("your in drawchart", foundSongData);
         console.log("this is getting its accustics", foundSongData.analytics.acousticness);
         var data = google.visualization.arrayToDataTable([
-          ['Label', 'Value'],
-          ['Acoustic', foundSongData.analytics.acousticness],
-          ['Popularity', foundSongData.analytics.popularity],
-          ['Speechness', foundSongData.analytics.speechiness],
-          ['Energy', foundSongData.analytics.energy],
-          ['Valence', foundSongData.analytics.valence],
-          ['Danceability', foundSongData.analytics.danceability],
-          ['Liveness', foundSongData.analytics.liveness],
-          
+            ['Label', 'Value'],
+            ['Acoustic', foundSongData.analytics.acousticness],
+            ['Popularity', foundSongData.analytics.popularity],
+            ['Speechness', foundSongData.analytics.speechiness],
+            ['Energy', foundSongData.analytics.energy],
+            ['Valence', foundSongData.analytics.valence],
+            ['Danceability', foundSongData.analytics.danceability],
+            ['Liveness', foundSongData.analytics.liveness],
+
         ]);
 
         var options = {
-          width: 600,
-          height: 120,
-          redFrom: 90,
-          redTo: 100,
-          yellowFrom: 75,
-          yellowTo: 90,
-          minorTicks: 5
+            width: 600,
+            height: 120,
+            redFrom: 90,
+            redTo: 100,
+            yellowFrom: 75,
+            yellowTo: 90,
+            minorTicks: 5
         };
 
         var chart = new google.visualization.Gauge(document.getElementById('chart_div'));
@@ -476,19 +488,19 @@ document.addEventListener("DOMContentLoaded", () => {
         chart.draw(data, options);
 
         setInterval(function() {
-          data.setValue(0, 1, 40 + Math.round(60 * Math.random()));
-          chart.draw(data, options);
+            data.setValue(0, 1, 40 + Math.round(60 * Math.random()));
+            chart.draw(data, options);
         }, 13000);
         setInterval(function() {
-          data.setValue(1, 1, 40 + Math.round(60 * Math.random()));
-          chart.draw(data, options);
+            data.setValue(1, 1, 40 + Math.round(60 * Math.random()));
+            chart.draw(data, options);
         }, 5000);
         setInterval(function() {
-          data.setValue(2, 1, 60 + Math.round(20 * Math.random()));
-          chart.draw(data, options);
+            data.setValue(2, 1, 60 + Math.round(20 * Math.random()));
+            chart.draw(data, options);
         }, 26000);
-      }
+    }
 
-    
+
 
 });
