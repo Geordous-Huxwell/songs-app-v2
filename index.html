@@ -8,6 +8,8 @@
     <script src="data/genres.json"></script>
     <script src="data/sample-songs.json"></script>
     <script src="https://kit.fontawesome.com/59d2823eac.js" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="app.js"></script>
     <link rel="stylesheet" href="css/styles.css">
 </head>
@@ -89,20 +91,15 @@
                         <th>
                             Playlist
                         </th>
-                        
+
                     </thead>
                     <tbody id="song-table-body"></tbody>
                 </table>
             </div>
         </article>
-        <article id="songView" class="hide"> 
+        <article id="songView" class="hide">
             <div class="songview-parent">
-                <!-- <div class="songview-child-element">
-                    element 1
-                </div>
-                <div class="songview-child-element">
-                    element 2
-                </div> -->
+
             </div>
         </article>
         <article id="playlistView" class="hide">
@@ -140,6 +137,9 @@
             </div>
             <!-- buildSongTable outputTableRow -->
         </article>
+        <div>
+            <canvas id="myChart"></canvas>
+        </div>
         <div id="toast"></div>
     </div>
 

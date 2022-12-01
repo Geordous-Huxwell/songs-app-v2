@@ -4,6 +4,7 @@ body {
     margin: 0;
     padding: 0;
     font-family: Arial;
+    
 }
 
 
@@ -481,11 +482,66 @@ a {
  */
 /*done tests */
 .songview-parent{
-   display: grid;
-   grid-template-columns: 1fr 1fr;
-
+   display: flex;
+   text-align: center;
+ /* grid-template-columns: 1fr 1fr; */
+   /* width:50% */
 }
 .songview-parent div{
-    width: auto;
-    margin: 10px;
+    margin: auto;
+    align-items: center;
+}
+
+
+
+.bpm {
+    color: #fff;
+    padding: 10px;
+    display: inline-block;
+    border-radius: 5px;
+}
+
+@keyframes blinkingBackground {
+    /* 0% {
+        background-color: #10c018;
+    } */
+    /* 25% {
+        background-color: #1056c0;
+    }
+    50% {
+        background-color: #ef0a1a;
+    }
+    75% {
+        background-color: #254878;
+    } */
+    100% {
+        background-color: #821f76;
+    }
+}
+
+#titleSingle{
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin: auto;
+    padding: 1em;
+    
+    font-size: 50px;
+    font-weight: 800;
+    text-shadow: 1px 1px 0 black, 1px 1px 0 black, 1px 1px black, 1px 1px 0 black;
+    transform: scaleY(1.4);
+}
+#artist-name{
+    text-decoration: overline underline;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    font-size: 35px;
+    color: rgb(255 255 255 / 86%);
+    margin: 0;
+
+}
+#artist-type{
+    /* background-color: red; */
+    text-align: center;
+    color: rgb(255 255 255 / 86%);
+    font-style: italic;
 }

@@ -218,13 +218,13 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     document.querySelector("#filter-select").addEventListener("change", handleView)
-    /**
-     * This function handles the view of the selecting search options and entered things. 
-     * @param {*} e this is the event of the change action being placed when we change the select box. 
-     */
+        /**
+         * This function handles the view of the selecting search options and entered things. 
+         * @param {*} e this is the event of the change action being placed when we change the select box. 
+         */
     function handleView(e) {
         // initiating the selected filter
-        const selectedFilter = e.target.value; 
+        const selectedFilter = e.target.value;
         console.log(e.target);
         // this is getting all (jills ex would be article) the things with the hide class it in 
         const hideArray = document.querySelectorAll("#song-search-form .hide")
@@ -244,7 +244,7 @@ document.addEventListener("DOMContentLoaded", () => {
         } else {
             elements.push(document.querySelector("#song-title-search").parentElement);
             elements.push(document.querySelector("#artist-select").parentElement);
-        } 
+        }
         // adds the hide back to the elements thats in the array we set up for elements we want to hide. 
         elements.forEach(elementType => (elementType.classList.add("hide")));
     }
@@ -329,6 +329,39 @@ document.addEventListener("DOMContentLoaded", () => {
             //event.stopPropagation();
         });
     }
+    document.querySelector("tbody").addEventListener('click', (event) => { // this is getting an event listener for the entire table body.
+        //console.dir(event.target);
+        if (event.target.matches(".playlist-add-btn")) {
+            event.target.classList.remove("playlist-add-btn")
+            event.target.classList.add("playlist-remove-btn")
+            event.target.textContent = "Remove";
+
+            const songId = event.target.attributes["data-songId"].value;
+            addToPlaylist(songId);
+
+            event.stopPropagation(); // prevent from triggering the row click listener
+        } else if (event.target.matches(".playlist-remove-btn")) {
+            event.target.classList.remove("playlist-remove-btn")
+            event.target.classList.add("playlist-add-btn")
+            event.target.textContent = "Add";
+
+            const songId = event.target.attributes["data-songId"].value;
+            removeFromPlaylist(songId)
+
+            event.stopPropagation(); // prevent from triggering the row click listener
+
+        } else {
+
+            console.dir(event.target);
+
+            // jill code go to single song page 
+            const songId = event.target.parentElement.dataset.songid;
+            switchDisplay("single-song-page");
+            singleSongPageView(songId);
+            event.stopPropagation();
+        }
+        //event.stopPropagation();
+    });
 
     function addToPlaylist(songId) {
         const songData = songs.find(song => {
@@ -362,46 +395,97 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function singleSongPageView(songId) {
         const foundSongData = songs.find(song => song.song_id == songId);
-        console.log("This is the found song data");
-        console.log(foundSongData);
+        console.log("This is the found song data", foundSongData);
         // select parent 
         const ssParent = document.querySelector('.songview-parent');
-        
-    
-        ssParent.appendChild( createInfopage(foundSongData));
-        ssParent.appendChild(createRadarpage(foundSongData));
-        
-        console.log("title:");
-        console.log(foundSongData.title);
+        ssParent.replaceChildren()
+        console.log('ssParent', ssParent);
+
+        ssParent.appendChild(createInfopage(foundSongData));
+        //ssParent.appendChild(createRadarpage(foundSongData));
+
+        console.log("title:", foundSongData.title);
 
     }
-    function createInfopage(foundSongData){
-        const div= document.createElement("div");
+
+    function createInfopage(foundSongData) {
+        const div = document.createElement("div");
+
+        //let div = document.querySelector('.songview-parent');
         // title 
-        let h2= document.createElement("h2");
-        h2.textContent = foundSongData.title;
-        //artist
-        let h3= document.createElement("h3");
-       h3.textContent = foundSongData.artist.name;
-       //analysis circle
-       //createCircle(foundSongData);
+        let titlee = document.createElement("h2");
+        titlee.id="titleSingle"
+        console.log(titlee)
+        titlee.textContent = foundSongData.title;
 
-       // adding created elements 
-       div.appendChild(h2);
-       div.appendChild(h3);
-       return div;
-    }
-    function createRadarpage(foundSongData){
-        let r= document.createElement('p');
-        r.textContent = "wowwowow radar";
-        return r;
-    }
-    function createCircle(foundSongData){
-        let div = document.createElement("div");
-        div.classList="wrap-circles";
-        for(let a of foundSongData.analytics){
-            console.log(a);
+        //artist
+        let artistName = document.createElement("h3");
+        artistName.id= "artist-name";
+        artistName.textContent = "-"+foundSongData.artist.name+"-";
+        // artist type 
+        let artistType = document.createElement("h4");
+        artistType.id = "artist-type";
+        // find the artist type based on json artists file 
+        let artistnameLooking = foundSongData.artist.name;
+        let artistTypeFound; 
+        for(let a of artists){
+            if (a.name == artistnameLooking){
+                artistTypefound = a.type;
+            }
         }
+        artistType.textContent = artistTypefound;
+        //genre
+        let genree = document.createElement("h3"); 
+        genree.id = "genreSingle";
+        genree.textContent = "genre: " +foundSongData.genre.name;
+        // year 
+        let yearr = document.createElement("h3");
+        yearr.id = "year";
+        yearr.textContent = "year: "+foundSongData.year;
+        // duration 
+        let durationn = document.createElement("h3");
+        durationn.id ="duration";
+        durationn.textContent = "duration: "+foundSongData.details.duration;
+        //analysis circle
+        let gageDiv = createCircle(foundSongData);
+        // BPM thing
+        let bpmDiv = document.createElement("h2")
+        let bpm = foundSongData.details.bpm;
+        bpmDiv.textContent = "BPM: " + bpm;
+        bpmDiv.classList.add('bpm');
+        let beatSec = (60 / bpm);
+        console.log(beatSec)
+        bpmDiv.style.setProperty("animation", `blinkingBackground ${beatSec}s infinite`)
+
+        // adding created elements 
+        div.appendChild(titlee);
+        div.appendChild(artistName);
+        div.appendChild(artistType);
+        div.appendChild(genree);
+        div.appendChild(yearr);
+        div.appendChild(durationn);
+      
+        div.appendChild(bpmDiv);
+        div.append(gageDiv);
+        return div;
+    }
+
+    // function createRadarpage(foundSongData) {
+    //     let r = document.createElement('p');
+    //     r.textContent = "wowwowow radar";
+    //     return r;
+    // }
+
+    function createCircle(foundSongData) {
+        let divGages = document.createElement("div");
+        divGages.classList = "wrap-circles";
+        divGages.id = "chart_div";
+        google.charts.setOnLoadCallback(() => drawChart(foundSongData));
+        //drawChart();
+        return divGages;
+            //for(let a of foundSongData.analytics){
+            //    console.log(a);
+            //}
     }
 
     // document.querySelector("#songButton").addEventListener("click", () =>{
@@ -484,35 +568,35 @@ document.addEventListener("DOMContentLoaded", () => {
         alphaSortColumn(songs, currentSort)
         switchDisplay();
     });
-    document.querySelector('td').addEventListener('click',()=>{
-        switchDisplay("single-song-page");
-    })
-    //outline in my brain for the switching 
-    // build funtion that brings in the selected view they want. event 
-    function switchDisplay(displayChoice){
-         // removing all hide classes from all articles. 
+    document.querySelector('td').addEventListener('click', () => {
+            switchDisplay("single-song-page");
+        })
+        //outline in my brain for the switching 
+        // build funtion that brings in the selected view they want. event 
+    function switchDisplay(displayChoice) {
+        // removing all hide classes from all articles. 
         //const displayHideArray = document.querySelectorAll(".hide");
         //  console.log("this is the displayHideArray",displayHideArray)
-         
-         document.querySelectorAll("article").forEach(hidden => (hidden.classList.remove("hide")))
-         const elementsToHide =[];
-         console.log("this is dispay choice", displayChoice);
 
-         if(displayChoice == "single-song-page"){
+        document.querySelectorAll("article").forEach(hidden => (hidden.classList.remove("hide")))
+        const elementsToHide = [];
+        console.log("this is dispay choice", displayChoice);
+
+        if (displayChoice == "single-song-page") {
             //console.log("hiii")
-           // const hi = 
+            // const hi = 
             elementsToHide.push(document.querySelector("#searchView"));
             elementsToHide.push(document.querySelector("#playlistView"));
-         } else if (displayChoice == "playlist-view"){
+        } else if (displayChoice == "playlist-view") {
             elementsToHide.push(document.querySelector("#searchView"));
             elementsToHide.push(document.querySelector("#songView"));
-         }else{
+        } else {
             elementsToHide.push(document.querySelector("#songView"));
             elementsToHide.push(document.querySelector("#playlistView"));
-         }
-         console.log("this is elements to hide", elementsToHide)
-         elementsToHide.forEach(elementType =>(elementType.classList.add("hide")));
-     
+        }
+        console.log("this is elements to hide", elementsToHide)
+        elementsToHide.forEach(elementType => (elementType.classList.add("hide")));
+
     }
 
     document.querySelector('#credits-btn').addEventListener('mouseover', () => {
@@ -525,5 +609,107 @@ document.addEventListener("DOMContentLoaded", () => {
         buildSongTable(playlist, "#playlist-table-body");
 
     })
+
+
+
+    /**
+     * IMPORTED GAGES STUFFF
+     * 
+     */
+    google.charts.load('current', {
+        'packages': ['gauge']
+    });
+    //google.charts.setOnLoadCallback(drawChart);
+
+    function drawChart(foundSongData) {
+        console.log("your in drawchart", foundSongData);
+        console.log("this is getting its accustics", foundSongData.analytics.acousticness);
+        var data = google.visualization.arrayToDataTable([
+            ['Label', 'Value'],
+            ['Acoustic', 0],
+            ['Popularity', 0],
+            ['Speech', 0],
+            ['Energy', 0],
+            ['Valence', 0],
+            ['Dance', 0],
+            ['Live', 0],
+
+        ]);
+
+        var options = {
+            width: 800,
+            height: 120,
+            redFrom: 0,
+            redTo: 0,
+            yellowFrom: 0,
+            yellowTo: 0,
+            minorTicks: 5,
+            greenColor:"#89e5cd",
+            greenFrom: 75,
+            greenTo: 100,
+            animation: {
+                easing: "out", 
+                duration:600
+            }
+        };
+
+        var chart = new google.visualization.Gauge(document.getElementById('chart_div'));
+
+        chart.draw(data, options);
+
+        setTimeout(function() {
+            data.setValue(0, 1, foundSongData.analytics.acousticness);
+            chart.draw(data, options);
+        }, 200);
+        setTimeout(function(){
+            data.setValue(1, 1, foundSongData.details.popularity);
+            chart.draw(data, options);
+        }, 700);
+        setTimeout(function(){
+            data.setValue(2, 1, foundSongData.analytics.speechiness);
+            chart.draw(data, options);
+        }, 1200);
+        setTimeout(function(){
+            data.setValue(3, 1, foundSongData.analytics.energy);
+            chart.draw(data, options);
+        }, 1700);
+        setTimeout(function(){
+            data.setValue(4, 1, foundSongData.analytics.valence);
+            chart.draw(data, options);
+        }, 2200);
+
+        setTimeout(function(){
+            data.setValue(5, 1, foundSongData.analytics.danceability);
+            chart.draw(data, options);
+        }, 2700);
+        setTimeout(function(){
+            data.setValue(6, 1, foundSongData.analytics.liveness);
+            chart.draw(data, options);
+        }, 3200);
+    }
+
+
+
+
+
+    const ctx = document.getElementById('myChart');
+
+    new Chart(ctx, {
+        type: 'radar',
+        data: {
+            labels: ['Running', 'Swimming', 'Eating', 'Cycling'],
+            datasets: [{
+                data: [20, 10, 4, 2]
+            }]
+        },
+        options: {
+            elements: {
+                line: {
+                    borderWidth: 3
+                }
+            }
+        }
+    });
+
 
 });
