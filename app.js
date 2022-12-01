@@ -503,4 +503,26 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
 
+
+
+    const ctx = document.getElementById('myChart');
+
+    new Chart(ctx, {
+        type: 'radar',
+        data: {
+            labels: ['Running', 'Swimming', 'Eating', 'Cycling'],
+            datasets: [{
+                data: [20, 10, 4, 2]
+            }]
+        },
+        options: {
+            elements: {
+                line: {
+                    borderWidth: 3
+                }
+            }
+        }
+    });
+
+
 });
