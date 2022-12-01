@@ -279,6 +279,7 @@ document.addEventListener("DOMContentLoaded", () => {
         document.querySelector(tableSelector).addEventListener('click', (event) => { // this is getting an event listener for the entire table body.
             //console.dir(event.target);
             if (event.target.matches(".playlist-add-btn")) {
+                console.log("add button func")
                 event.target.classList.remove("playlist-add-btn")
                 event.target.classList.add("playlist-remove-btn")
                 event.target.textContent = "Remove";
@@ -289,10 +290,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 event.stopPropagation(); // prevent from triggering the row click listener
 
             } else if (event.target.matches(".playlist-remove-btn")) {
-                event.target.classList.remove("playlist-remove-btn")
-                event.target.classList.add("playlist-add-btn")
-                event.target.textContent = "Add";
-
+                console.log("remove button func")
                 const songId = event.target.attributes["data-songId"].value;
                 removeFromPlaylist(songId)
 
@@ -313,6 +311,10 @@ document.addEventListener("DOMContentLoaded", () => {
                 }
 
 
+                event.target.classList.remove("playlist-remove-btn")
+                event.target.classList.add("playlist-add-btn")
+                event.target.textContent = "Add";
+
                 event.stopPropagation(); // prevent from triggering the row click listener
 
             } else if (event.target.matches("tr td")) {
@@ -327,39 +329,7 @@ document.addEventListener("DOMContentLoaded", () => {
             //event.stopPropagation();
         });
     }
-    document.querySelector("tbody").addEventListener('click', (event) => { // this is getting an event listener for the entire table body.
-        //console.dir(event.target);
-        if (event.target.matches(".playlist-add-btn")) {
-            event.target.classList.remove("playlist-add-btn")
-            event.target.classList.add("playlist-remove-btn")
-            event.target.textContent = "Remove";
 
-            const songId = event.target.attributes["data-songId"].value;
-            addToPlaylist(songId);
-
-            event.stopPropagation(); // prevent from triggering the row click listener
-        } else if (event.target.matches(".playlist-remove-btn")) {
-            event.target.classList.remove("playlist-remove-btn")
-            event.target.classList.add("playlist-add-btn")
-            event.target.textContent = "Add";
-
-            const songId = event.target.attributes["data-songId"].value;
-            removeFromPlaylist(songId)
-
-            event.stopPropagation(); // prevent from triggering the row click listener
-
-        } else {
-
-            console.dir(event.target);
-
-            // jill code go to single song page 
-            const songId = event.target.parentElement.dataset.songid;
-            switchDisplay("single-song-page");
-            singleSongPageView(songId);
-            event.stopPropagation();
-        }
-        //event.stopPropagation();
-    });
 
     function addToPlaylist(songId) {
         const songData = songs.find(song => {
