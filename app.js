@@ -8,6 +8,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 loadData(data)
             })
     }
+    
 
     /**
      * This function loads the data with the JSON data thats been put into strings.
@@ -81,7 +82,7 @@ document.addEventListener("DOMContentLoaded", () => {
             }
             return 0;
         });
-        buildSongTable(songs);
+        buildSongTable(songs, "#song-table-body");
     }
 
     // this making the events for the table head
@@ -98,7 +99,7 @@ document.addEventListener("DOMContentLoaded", () => {
             target.classList.add("active-sort-arrow"); // adds an active sort arrow class
 
             if (target.id == currentSort) {
-                filteredSongs ? buildSongTable(filteredSongs.reverse()) : buildSongTable(songs.reverse());
+                filteredSongs ? buildSongTable(filteredSongs.reverse(), "#song-table-body") : buildSongTable(songs.reverse(), "#song-table-body");
             } else {
                 filteredSongs ? alphaSortColumn(filteredSongs, target.id) : alphaSortColumn(songs, target.id);
                 currentSort = target.id;
@@ -144,20 +145,14 @@ document.addEventListener("DOMContentLoaded", () => {
     console.log(filteredSongs);
 
     filteredSongs ? alphaSortColumn(filteredSongs, currentSort) : alphaSortColumn(songs, currentSort);
-    //the above code does the same as the below commented out code
-    // if (filterSongs) {
-    //     buildSongTable(filteredSongs);
-    // } else {
-    //     buildSongTable(songs);
-    // }
+    // call generate function HK
+        
+    addTableListener("#song-table-body"); 
 
-
-
-
-    function buildSongTable(songs) {
-        document.querySelector("tbody").innerHTML = "";
+    function buildSongTable(songs, tableBodyId) {
+        document.querySelector(tableBodyId).innerHTML = "";
         for (let song of songs) {
-            outputTableRow(song);
+            outputTableRow(song, tableBodyId);
         }
         // alphaSortColumn("title"); // makes life never load! (causes infinite loop)
     }
@@ -165,8 +160,8 @@ document.addEventListener("DOMContentLoaded", () => {
     /*
     this function wil output the table row by the passed in song 
     */
-    function outputTableRow(song) {
-        const parentElement = document.getElementById("song-table-body");
+    function outputTableRow(song, tableBodyId) {
+        const parentElement = document.querySelector(tableBodyId);
         const row = document.createElement("tr");
         row.setAttribute("data-songID", song.song_id);
         // createingn the td for title 
@@ -232,7 +227,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const selectedFilter = e.target.value; 
         console.log(e.target);
         // this is getting all (jills ex would be article) the things with the hide class it in 
-        const hideArray = document.querySelectorAll(".hide")
+        const hideArray = document.querySelectorAll("#song-search-form .hide")
 
         //loop that goes through the array of all hidden classes and removes the hide class.
         hideArray.forEach(hidden => (hidden.classList.remove("hide")));
@@ -278,38 +273,62 @@ document.addEventListener("DOMContentLoaded", () => {
 
     document.querySelector("#clear-btn").addEventListener("click", sessionStorage.clear());
 
-    document.querySelector("tbody").addEventListener('click', (event) => { // this is getting an event listener for the entire table body.
-        //console.dir(event.target);
-        if (event.target.matches(".playlist-add-btn")) {
-            event.target.classList.remove("playlist-add-btn")
-            event.target.classList.add("playlist-remove-btn")
-            event.target.textContent = "Remove";
+    // generate function no params just call function HK
 
-            const songId = event.target.attributes["data-songId"].value;
-            addToPlaylist(songId);
+    function addTableListener(tableSelector)
+    {
+        document.querySelector(tableSelector).addEventListener('click', (event) => { // this is getting an event listener for the entire table body.
+            //console.dir(event.target);
+            if (event.target.matches(".playlist-add-btn")) {
+                event.target.classList.remove("playlist-add-btn")
+                event.target.classList.add("playlist-remove-btn")
+                event.target.textContent = "Remove";
+    
+                const songId = event.target.attributes["data-songId"].value;
+                addToPlaylist(songId);
+    
+                event.stopPropagation(); // prevent from triggering the row click listener
+            
+            } else if (event.target.matches(".playlist-remove-btn")) {
+                event.target.classList.remove("playlist-remove-btn")
+                event.target.classList.add("playlist-add-btn")
+                event.target.textContent = "Add";
+    
+                const songId = event.target.attributes["data-songId"].value;
+                removeFromPlaylist(songId)
 
-            event.stopPropagation(); // prevent from triggering the row click listener
-        } else if (event.target.matches(".playlist-remove-btn")) {
-            event.target.classList.remove("playlist-remove-btn")
-            event.target.classList.add("playlist-add-btn")
-            event.target.textContent = "Add";
+                if (event.target.parentElement.parentElement.parentElement.id == "playlist-table-body")
+                 {
+                    console.log("In the playlist table"); 
+                    // remove that specfic row from table body
+                    // event.target.parentElement.parentElement
 
-            const songId = event.target.attributes["data-songId"].value;
-            removeFromPlaylist(songId)
+                    // Get the child element node
+                    // let child = document.getElementById("playlist-row");
 
-            event.stopPropagation(); // prevent from triggering the row click listener
+                    // Remove the child element from the document
+                    let tableBodyElement = event.target.parentElement.parentElement.parentElement; 
+                   let tableRowElement = event.target.parentElement.parentElement;
+                   tableBodyElement.removeChild(tableRowElement);
+                   analyzePlaylist()
+                   
+                 }
 
-        } else if (event.target.matches("tr td")) {
-
-            console.dir(event.target);
-
-            // jill code go to single song page 
-            const songId = event.target.parentElement.dataset.songid;
-            singleSongPageView(songId);
-            event.stopPropagation();
-        }
-        //event.stopPropagation();
-    });
+    
+                event.stopPropagation(); // prevent from triggering the row click listener
+    
+            } else if (event.target.matches("tr td")) {
+    
+                console.dir(event.target);
+    
+                // jill code go to single song page 
+                const songId = event.target.parentElement.dataset.songid;
+                singleSongPageView(songId);
+                event.stopPropagation();
+            }
+            //event.stopPropagation();
+        });
+    }
 
     function addToPlaylist(songId) {
         const songData = songs.find(song => {
@@ -389,9 +408,80 @@ document.addEventListener("DOMContentLoaded", () => {
     //     switchDisplay("single-song-page")
     // });
     document.querySelector("#playlistButton").addEventListener('click', () => {
+        buildSongTable(playlist, "#playlist-table-body");
+        // call generate eventlistner function  HK
+        addTableListener("#playlist-table-body"); 
         switchDisplay("playlist-view");
+        analyzePlaylist()
+        
+        
     });
+
+    function analyzePlaylist(){
+        let numSongs = playlist.length
+       
+        const numParent = document.querySelector("#num-songs span"); 
+        numParent.textContent = numSongs;
+        console.log("num songs",numParent) 
+
+        let totalPop = playlist.reduce( (total, song) =>{
+            return total + song.details.popularity
+        }, 0)
+
+        let n = totalPop/numSongs
+        let avgPop = n.toFixed(2); 
+        
+        const popParent = document.querySelector("#avg-pop span")
+        popParent.textContent = avgPop; 
+
+        const nameArray = []; 
+        playlist.forEach(song => {
+            nameArray.push(song.artist.name)
+        } ); 
+        let artistNameLength = nameArray.length; 
+
+        function mostFreq(arrayName, arrLength)
+        {
+            let count = 0; 
+            let maxCount; 
+
+            for (let i = 0; i<arrLength; i++)
+            {
+                let amt = 0;
+                for (let j = 0; j<arrLength; j++)
+                {
+                    if (arrayName[i] == arrayName[j])
+                    amt++; 
+                }
+                if (amt> count)
+                {
+                    count = amt; 
+                    maxCount = arrayName[i]; 
+                }
+            }
+            return maxCount; 
+        }        
+        // switchDisplay("playlist-view");
+        let output = mostFreq(nameArray,artistNameLength); 
+        const topArtName = document.querySelector("#top-artist span"); 
+        topArtName.textContent = output; 
+   
+
+        // TOP GENRE
+        const genreArray = []; 
+        playlist.forEach(song => {
+            genreArray.push(song.genre.name); 
+        } ); 
+        let genreLength = genreArray.length; 
+
+        // switchDisplay("playlist-view");
+        let genreOutput = mostFreq(genreArray,genreLength); 
+        const topGenName = document.querySelector("#top-genre span"); 
+        topGenName.textContent = genreOutput; 
+
+    }
     document.querySelector("#searchButton").addEventListener('click', () => {
+        alphaSortColumn(songs, currentSort)
         switchDisplay();
     });
     document.querySelector('td').addEventListener('click',()=>{
@@ -429,6 +519,11 @@ document.addEventListener("DOMContentLoaded", () => {
         makeToast('', "#credits-toast", 3000)
     })
 
-    
+    document.querySelector('#clear-playlist').addEventListener("click", () =>{
+        localStorage.setItem("playlist", []);
+        playlist = []
+        buildSongTable(playlist, "#playlist-table-body");
+
+    })
 
 });

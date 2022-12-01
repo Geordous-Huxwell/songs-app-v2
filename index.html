@@ -95,7 +95,7 @@
                 </table>
             </div>
         </article>
-        <article id="songView" class="test"> 
+        <article id="songView" class="hide"> 
             <div class="songview-parent">
                 <!-- <div class="songview-child-element">
                     element 1
@@ -105,29 +105,37 @@
                 </div> -->
             </div>
         </article>
-        <article id="playlistView" class="test">
-           this will be playlist view!
+        <article id="playlistView" class="hide">
+           <div class="playlist-elements">
+            <div class="playlist-summary">
+                <div id="num-songs">Number of songs: <span id=></span> </div>
+                <div id="avg-pop">Average popularity: <span></span></div>
+                <div id="top-artist">Top artist: <span></span></div>
+                <div id="top-genre">Top genre: <span></span> </div>
+            </div>
+            <button id="clear-playlist">Clear</button>
+           </div>
             <div class="table-container">
                 <table class="topazCells">
                     <thead>
-                        <th>
-                            Title <i id="titleOfSong" class="fa-solid fa-arrows-up-down"></i>
-                        </th>
-                        <th>
-                            Artist <i id="artistOfSong" class="fa-solid fa-arrows-up-down"></i>
-                        </th>
-                        <th>Year <i id="yearOfSong" class="fa-solid fa-arrows-up-down"></i></th>
-                        <th id="genre-col-header">
-                            Genre <i id="genreOfSong" class="fa-solid fa-arrows-up-down"></i>
-                        </th>
-                        <th id="pop-col-header">
-                            Pop. <i id="popularityOfSong" class="fa-solid fa-arrows-up-down"></i>
-                        </th>
-                        <th>
-                            Playlist
-                        </th>
+                            <th>
+                                Title <i id="titleOfSong" class="fa-solid fa-arrows-up-down"></i>
+                            </th>
+                            <th>
+                                Artist <i id="artistOfSong" class="fa-solid fa-arrows-up-down"></i>
+                            </th>
+                            <th>Year <i id="yearOfSong" class="fa-solid fa-arrows-up-down"></i></th>
+                            <th id="genre-col-header">
+                                Genre <i id="genreOfSong" class="fa-solid fa-arrows-up-down"></i>
+                            </th>
+                            <th id="pop-col-header">
+                                Pop. <i id="popularityOfSong" class="fa-solid fa-arrows-up-down"></i>
+                            </th>
+                            <th>
+                                Playlist
+                            </th>
                     </thead>
-                    <tbody id="song-table-body"></tbody>
+                    <tbody id="playlist-table-body"></tbody>
                 </table>
             </div>
             <!-- buildSongTable outputTableRow -->
