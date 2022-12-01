@@ -494,7 +494,7 @@ a {
 
 
 
-.bpm {
+.bpm{
     color: #fff;
     padding: 10px;
     display: inline-block;
@@ -544,4 +544,23 @@ a {
     text-align: center;
     color: rgb(255 255 255 / 86%);
     font-style: italic;
+}
+#songsubDiv{
+   
+    display: flex;
+    padding: 10px;
+    align-content: space-between;
+    align-items: baseline;
+    justify-content: space-between;
+}
+#songsubDiv h3{
+    color: #fff;
+    padding: 10px;
+    display: inline-block;
+    border-radius: 5px;
+    background-color: #821f76;
+    font-size: 24px;
+}
+#genreSingle{
+    text-transform: capitalize;
 }
