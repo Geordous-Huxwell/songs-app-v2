@@ -362,14 +362,14 @@ document.addEventListener("DOMContentLoaded", () => {
         //let div = document.querySelector('.songview-parent');
         // title 
         let titlee = document.createElement("h2");
-        titlee.id="title"
+        titlee.id="titleSingle"
         console.log(titlee)
-        titlee.textContent = "title: " +foundSongData.title;
+        titlee.textContent = foundSongData.title;
 
         //artist
         let artistName = document.createElement("h3");
         artistName.id= "artist-name";
-        artistName.textContent = "artist name: "+foundSongData.artist.name;
+        artistName.textContent = "-"+foundSongData.artist.name+"-";
         // artist type 
         let artistType = document.createElement("h4");
         artistType.id = "artist-type";
@@ -381,11 +381,10 @@ document.addEventListener("DOMContentLoaded", () => {
                 artistTypefound = a.type;
             }
         }
-
-        artistType.textContent = "artist type: " +artistTypefound;
+        artistType.textContent = artistTypefound;
         //genre
         let genree = document.createElement("h3"); 
-        genree.id = "genre";
+        genree.id = "genreSingle";
         genree.textContent = "genre: " +foundSongData.genre.name;
         // year 
         let yearr = document.createElement("h3");
@@ -431,7 +430,7 @@ document.addEventListener("DOMContentLoaded", () => {
         divGages.id = "chart_div";
         google.charts.setOnLoadCallback(() => drawChart(foundSongData));
         //drawChart();
-        return divGages
+        return divGages;
             //for(let a of foundSongData.analytics){
             //    console.log(a);
             //}
