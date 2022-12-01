@@ -678,7 +678,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     label: 'Song Metrics',
                     data: [song.analytics.danceability, song.analytics.energy, song.analytics.speechiness, song.analytics.acousticness, song.analytics.liveness, song.analytics.valence],
                     fill: true,
-                    backgroundColor: 'white',
+                    backgroundColor: 'rgba(217, 176, 140, 0.411)',
                     borderColor: '#D9B08C',
                     pointBackgroundColor: 'rgb(255, 99, 132)',
                     pointBorderColor: '#fff',
