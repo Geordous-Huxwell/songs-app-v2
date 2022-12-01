@@ -4,6 +4,7 @@ body {
     margin: 0;
     padding: 0;
     font-family: Arial;
+    
 }
 
 
@@ -479,19 +480,18 @@ a {
 /*Circle Progress Bar stuff single song page
 * https://alvarotrigo.com/blog/progress-bar-css/
  */
-
-
 /*done tests */
-
-.songview-parent {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
+.songview-parent{
+   display: flex;
+ /* grid-template-columns: 1fr 1fr; */
+   /* width:50% */
+}
+.songview-parent div{
+    margin: auto;
+    align-items: center;
 }
 
-.songview-parent div {
-    width: auto;
-    margin: 10px;
-}
+
 
 .bpm {
     color: #fff;
