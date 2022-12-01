@@ -359,41 +359,40 @@ document.addEventListener("DOMContentLoaded", () => {
     function createInfopage(foundSongData) {
         const div = document.createElement("div");
 
-        //let div = document.querySelector('.songview-parent');
         // title 
         let titlee = document.createElement("h2");
-        titlee.id="titleSingle"
+        titlee.id = "titleSingle"
         console.log(titlee)
         titlee.textContent = foundSongData.title;
 
         //artist
         let artistName = document.createElement("h3");
-        artistName.id= "artist-name";
-        artistName.textContent = "-"+foundSongData.artist.name+"-";
+        artistName.id = "artist-name";
+        artistName.textContent = "-" + foundSongData.artist.name + "-";
         // artist type 
         let artistType = document.createElement("h4");
         artistType.id = "artist-type";
         // find the artist type based on json artists file 
         let artistnameLooking = foundSongData.artist.name;
-        let artistTypeFound; 
-        for(let a of artists){
-            if (a.name == artistnameLooking){
+        let artistTypeFound;
+        for (let a of artists) {
+            if (a.name == artistnameLooking) {
                 artistTypefound = a.type;
             }
         }
         artistType.textContent = artistTypefound;
         //genre
-        let genree = document.createElement("h3"); 
+        let genree = document.createElement("h3");
         genree.id = "genreSingle";
-        genree.textContent = "genre: " +foundSongData.genre.name;
+        genree.textContent = "genre: " + foundSongData.genre.name;
         // year 
         let yearr = document.createElement("h3");
         yearr.id = "year";
-        yearr.textContent = "year: "+foundSongData.year;
+        yearr.textContent = "year: " + foundSongData.year;
         // duration 
         let durationn = document.createElement("h3");
-        durationn.id ="duration";
-        durationn.textContent = "duration: "+foundSongData.details.duration;
+        durationn.id = "duration";
+        durationn.textContent = "duration: " + foundSongData.details.duration;
         //analysis circle
         let gageDiv = createCircle(foundSongData);
         // BPM thing
@@ -405,6 +404,12 @@ document.addEventListener("DOMContentLoaded", () => {
         console.log(beatSec)
         bpmDiv.style.setProperty("animation", `blinkingBackground ${beatSec}s infinite`)
 
+        let radarDiv = document.createElement("div")
+        radarDiv.id = 'radarContainer';
+        let canvas = document.createElement("canvas")
+        canvas.id = 'radarChart';
+        radarDiv.appendChild(canvas);
+        drawRadar(canvas, foundSongData);
         // adding created elements 
         div.appendChild(titlee);
         div.appendChild(artistName);
@@ -412,33 +417,21 @@ document.addEventListener("DOMContentLoaded", () => {
         div.appendChild(genree);
         div.appendChild(yearr);
         div.appendChild(durationn);
-      
         div.appendChild(bpmDiv);
         div.append(gageDiv);
+        div.appendChild(radarDiv)
         return div;
     }
 
-    // function createRadarpage(foundSongData) {
-    //     let r = document.createElement('p');
-    //     r.textContent = "wowwowow radar";
-    //     return r;
-    // }
 
     function createCircle(foundSongData) {
         let divGages = document.createElement("div");
         divGages.classList = "wrap-circles";
         divGages.id = "chart_div";
         google.charts.setOnLoadCallback(() => drawChart(foundSongData));
-        //drawChart();
         return divGages;
-            //for(let a of foundSongData.analytics){
-            //    console.log(a);
-            //}
     }
 
-    // document.querySelector("#songButton").addEventListener("click", () =>{
-    //     switchDisplay("single-song-page")
-    // });
     document.querySelector("#playlistButton").addEventListener('click', () => {
         switchDisplay("playlist-view");
     });
@@ -448,20 +441,13 @@ document.addEventListener("DOMContentLoaded", () => {
     document.querySelector('td').addEventListener('click', () => {
             switchDisplay("single-song-page");
         })
-        //outline in my brain for the switching 
         // build funtion that brings in the selected view they want. event 
     function switchDisplay(displayChoice) {
         // removing all hide classes from all articles. 
-        //const displayHideArray = document.querySelectorAll(".hide");
-        //  console.log("this is the displayHideArray",displayHideArray)
-
         document.querySelectorAll("article").forEach(hidden => (hidden.classList.remove("hide")))
         const elementsToHide = [];
-        console.log("this is dispay choice", displayChoice);
 
         if (displayChoice == "single-song-page") {
-            //console.log("hiii")
-            // const hi = 
             elementsToHide.push(document.querySelector("#searchView"));
             elementsToHide.push(document.querySelector("#playlistView"));
         } else if (displayChoice == "playlist-view") {
@@ -471,7 +457,6 @@ document.addEventListener("DOMContentLoaded", () => {
             elementsToHide.push(document.querySelector("#songView"));
             elementsToHide.push(document.querySelector("#playlistView"));
         }
-        console.log("this is elements to hide", elementsToHide)
         elementsToHide.forEach(elementType => (elementType.classList.add("hide")));
 
     }
@@ -485,17 +470,15 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
     /**
-     * IMPORTED GAGES STUFFF
+     * IMPORTED GAUGES STUFFF
      * 
      */
     google.charts.load('current', {
         'packages': ['gauge']
     });
-    //google.charts.setOnLoadCallback(drawChart);
 
     function drawChart(foundSongData) {
-        console.log("your in drawchart", foundSongData);
-        console.log("this is getting its accustics", foundSongData.analytics.acousticness);
+
         var data = google.visualization.arrayToDataTable([
             ['Label', 'Value'],
             ['Acoustic', 0],
@@ -516,12 +499,12 @@ document.addEventListener("DOMContentLoaded", () => {
             yellowFrom: 0,
             yellowTo: 0,
             minorTicks: 5,
-            greenColor:"#89e5cd",
+            greenColor: "#89e5cd",
             greenFrom: 75,
             greenTo: 100,
             animation: {
-                easing: "out", 
-                duration:600
+                easing: "out",
+                duration: 600
             }
         };
 
@@ -533,55 +516,61 @@ document.addEventListener("DOMContentLoaded", () => {
             data.setValue(0, 1, foundSongData.analytics.acousticness);
             chart.draw(data, options);
         }, 200);
-        setTimeout(function(){
+        setTimeout(function() {
             data.setValue(1, 1, foundSongData.details.popularity);
             chart.draw(data, options);
         }, 700);
-        setTimeout(function(){
+        setTimeout(function() {
             data.setValue(2, 1, foundSongData.analytics.speechiness);
             chart.draw(data, options);
         }, 1200);
-        setTimeout(function(){
+        setTimeout(function() {
             data.setValue(3, 1, foundSongData.analytics.energy);
             chart.draw(data, options);
         }, 1700);
-        setTimeout(function(){
+        setTimeout(function() {
             data.setValue(4, 1, foundSongData.analytics.valence);
             chart.draw(data, options);
         }, 2200);
 
-        setTimeout(function(){
+        setTimeout(function() {
             data.setValue(5, 1, foundSongData.analytics.danceability);
             chart.draw(data, options);
         }, 2700);
-        setTimeout(function(){
+        setTimeout(function() {
             data.setValue(6, 1, foundSongData.analytics.liveness);
             chart.draw(data, options);
         }, 3200);
     }
 
 
+    function drawRadar(canvas, song) {
+        console.log(song)
+        new Chart(canvas, {
+            type: 'radar',
+            data: {
 
-
-
-    const ctx = document.getElementById('myChart');
-
-    new Chart(ctx, {
-        type: 'radar',
-        data: {
-            labels: ['Running', 'Swimming', 'Eating', 'Cycling'],
-            datasets: [{
-                data: [20, 10, 4, 2]
-            }]
-        },
-        options: {
-            elements: {
-                line: {
-                    borderWidth: 3
+                labels: ['Dance', 'Energy', 'Speech', 'Acoustic', 'Liveness', 'Valence'],
+                datasets: [{
+                    label: 'Song Metrics',
+                    data: [song.analytics.danceability, song.analytics.energy, song.analytics.speechiness, song.analytics.acousticness, song.analytics.liveness, song.analytics.valence],
+                    fill: true,
+                    backgroundColor: 'white',
+                    borderColor: '#D9B08C',
+                    pointBackgroundColor: 'rgb(255, 99, 132)',
+                    pointBorderColor: '#fff',
+                    pointHoverBackgroundColor: '#fff',
+                    pointHoverBorderColor: 'rgb(255, 99, 132)'
+                }]
+            },
+            options: {
+                elements: {
+                    line: {
+                        borderWidth: 3
+                    }
                 }
             }
-        }
-    });
-
+        });
+    }
 
 });
