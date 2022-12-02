@@ -182,6 +182,7 @@ document.addEventListener("DOMContentLoaded", () => {
         //creating the td for song genre
         const rowDataGenre = document.createElement("td");
         rowDataGenre.textContent = song.genre.name;
+        rowDataGenre.id = "genre-cell";
         row.appendChild(rowDataGenre);
         // creating the td for the song popularity 
         const rowDataPopularity = document.createElement("td");
@@ -477,7 +478,7 @@ document.addEventListener("DOMContentLoaded", () => {
         let minutes = Math.floor(seconds / 60);
         seconds = seconds % 60;
 
-        // seconds = sprintf("%'02s", seconds); //add leading 0 if single digit result from above computation
+        //add leading 0 if single digit result from above computation
         if (seconds.toString().length == 1) { //handle case of no remainder
             seconds = seconds + "0";
         }
@@ -497,7 +498,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     document.querySelector("#playlistButton").addEventListener('click', () => {
         buildSongTable(playlist, "#playlist-table-body");
-        // call generate eventlistner function  HK
         addTableListener("#playlist-table-body");
         switchDisplay("playlist-view");
         analyzePlaylist()
@@ -628,16 +628,12 @@ document.addEventListener("DOMContentLoaded", () => {
         var options = {
             width: 800,
             height: 120,
-            redFrom: 0,
-            redTo: 0,
-            yellowFrom: 0,
-            yellowTo: 0,
             minorTicks: 5,
             greenColor: "#89e5cd",
             greenFrom: 75,
             greenTo: 100,
             animation: {
-                easing: "out",
+                easing: "linear",
                 duration: 600
             }
         };
