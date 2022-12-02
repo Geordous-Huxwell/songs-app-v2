@@ -1,4 +1,9 @@
 document.addEventListener("DOMContentLoaded", () => {
+    let songs = [];
+    let currentSort = "title"; // this defaults the table to sorting by song title
+    let playlist = [];
+    let filteredSongs;
+
     // checks if song data exists in localstorage and if not, gets the songs from randys api and put them into a JSON object
     if (!localStorage.getItem("songs")) {
         const api = "https://www.randyconnolly.com/funwebdev/3rd/api/music/songs-nested.php";
@@ -7,6 +12,9 @@ document.addEventListener("DOMContentLoaded", () => {
             .then(data => {
                 loadData(data)
             })
+    } else {
+        songs = JSON.parse(localStorage.getItem("songs"))
+        loadData(songs)
     }
 
 
@@ -18,18 +26,45 @@ document.addEventListener("DOMContentLoaded", () => {
     function loadData(data) {
         console.log(data);
         localStorage.setItem("songs", JSON.stringify(data));
+        //use sample-songs file as back-up if API call fails 
+        songs = JSON.parse(localStorage.getItem("songs")) || JSON.parse(songsJSON);
+        console.log("songs object", songs);
+
+        songs.forEach(song => {
+            populateOptions(song.title, document.getElementById("song-title-search"));
+        })
+
+
+        if (sessionStorage.getItem("title")) {
+            let title = sessionStorage.getItem("title");
+            filteredSongs = songs.filter((song) => {
+                return String(song.title).toLowerCase().includes(title.toLowerCase());
+            });
+
+        } else if (sessionStorage.getItem("artist")) {
+            let artist = sessionStorage.getItem("artist");
+            filteredSongs = songs.filter((song) => {
+                return song.artist.name == artist;
+            });
+
+        } else if (sessionStorage.getItem("genre")) {
+            let genre = sessionStorage.getItem("genre");
+            filteredSongs = songs.filter((song) => {
+                return song.genre.name == genre;
+            });
+        }
+
+        console.log(filteredSongs);
+
+        filteredSongs ? alphaSortColumn(filteredSongs, currentSort) : alphaSortColumn(songs, currentSort);
+
+        addTableListener("#song-table-body");
+
     }
 
-    /**
-     * Uncomment the line below if you need to clear the playlist storage 
-     * since localStorage.clear() will clear the api data as well. 
-     * Make sure to comment it out again after re-loading the page once 
-     * or playlist functionality won't work.
-     */
-    // localStorage.setItem("playlist", []);
 
     //initialize playlist if none exists
-    let playlist = [];
+
     if (!localStorage.getItem("playlist")) {
         localStorage.setItem("playlist", []);
     } else {
@@ -37,14 +72,9 @@ document.addEventListener("DOMContentLoaded", () => {
         console.log('initial playlist', playlist);
     }
 
-    //use sample-songs file as back-up if API call fails 
-    const songs = JSON.parse(localStorage.getItem("songs")) || JSON.parse(songsJSON);
     const artists = JSON.parse(artistsJSON);
     const genres = JSON.parse(genresJSON);
-    let reverseSongs = []; // this is just an empty array for the reverse song. 
-    let currentSort = "title"; // this defaults the table to sorting by song title
 
-    console.log("songs object", songs);
     console.log("sessionStorage", sessionStorage);
 
     // sorting algorithm adapted from https://www.javascripttutorial.net/array/javascript-sort-an-array-of-objects/
@@ -107,9 +137,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 
-    songs.forEach(song => {
-        populateOptions(song.title, document.getElementById("song-title-search"));
-    })
+
 
     artists.forEach((artist) => {
         populateOptions(artist.name, document.getElementById("artist-select"));
@@ -119,35 +147,6 @@ document.addEventListener("DOMContentLoaded", () => {
     genres.forEach((genre) => {
         populateOptions(genre.name, document.getElementById("genre-select"));
     });
-
-
-    let filteredSongs;
-
-    if (sessionStorage.getItem("title")) {
-        let title = sessionStorage.getItem("title");
-        filteredSongs = songs.filter((song) => {
-            return String(song.title).toLowerCase().includes(title.toLowerCase());
-        });
-
-    } else if (sessionStorage.getItem("artist")) {
-        let artist = sessionStorage.getItem("artist");
-        filteredSongs = songs.filter((song) => {
-            return song.artist.name == artist;
-        });
-
-    } else if (sessionStorage.getItem("genre")) {
-        let genre = sessionStorage.getItem("genre");
-        filteredSongs = songs.filter((song) => {
-            return song.genre.name == genre;
-        });
-    }
-
-    console.log(filteredSongs);
-
-    filteredSongs ? alphaSortColumn(filteredSongs, currentSort) : alphaSortColumn(songs, currentSort);
-    // call generate function HK
-
-    addTableListener("#song-table-body");
 
     function buildSongTable(songs, tableBodyId) {
         document.querySelector(tableBodyId).innerHTML = "";
