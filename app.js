@@ -527,6 +527,7 @@ document.addEventListener("DOMContentLoaded", () => {
         });
         let artistNameLength = nameArray.length;
 
+        // mostFreq algorithm from https://www.geeksforgeeks.org/frequent-element-array/
         function mostFreq(arrayName, arrLength) {
             let count = 0;
             let maxCount;
