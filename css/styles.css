@@ -75,11 +75,11 @@ th {
     min-width: 100px;
 }
 
-tr {
+.table-row {
     cursor: pointer;
 }
 
-tr:hover {
+.table-row:hover {
     background-color: #821f76 !important;
 }
 
@@ -595,4 +595,5 @@ a {
 
 .wrap-circles table {
     margin: auto !important;
+    background-color: #821f76bf;
 }
